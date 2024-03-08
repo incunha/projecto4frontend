@@ -19,7 +19,7 @@ body {
   background-image: url("multimedia/background_main_task.png");
 }
 .myButton {
-  background-color:rgba(0, 90, 128, 0.614);
+  background-color: var(--green2);
   border: none;
   color: var(--green3);
   text-align: center;
@@ -30,12 +30,18 @@ body {
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
+  padding: 5px 30px;
+  border: #0e1a21 1px solid;
 }
 
 .myButton:hover {
   background-color: var(--green3);
   color: var(--green1);
 }
-
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
 
