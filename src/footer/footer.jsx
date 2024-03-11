@@ -13,9 +13,10 @@ function Footer() {
                 <span>info@scrum.com</span>
             </div>
             <div>
-                <span>Facebook</span>
-                <span>Twitter</span>
-                <span>Instagram</span>
+                <span>Follow us:</span>
+                <span>Facebook/</span>
+                <span>Twitter/</span>
+                <span>Instagram/</span>
             </div>
         </footer>
     );

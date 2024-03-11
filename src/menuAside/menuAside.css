@@ -1,3 +1,17 @@
 .aside-menu {
     background-color: var(--green3);
+    width: 4%;
+    height: 100vh;
+    transition: width 0.5s ease;
+    z-index: 1;
+  }
+  
+  .aside-menu.open {
+    width: 15%; 
+    z-index: 1;
+  }
+  .menu-button {
+    width: 50px; 
+    background-color: transparent;
+    border: none;
 }
