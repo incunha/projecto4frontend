@@ -1,8 +1,12 @@
 import './modal-login.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useAuthStore from '../../authStore';
+
+
 
 
 function ModalLogin(props) {
+    const setToken = useAuthStore(state => state.setToken);
     const [isRegistering, setIsRegistering] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -14,6 +18,14 @@ function ModalLogin(props) {
     const [loginUsername, setLoginUsername] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
     const [imageUrlInput, setImageUrlInput] = useState('');
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setToken(token);
+            props.onLogin();
+        }
+    }, [setToken, props]);
 
     const handleRegisterClick = () => {
         setIsRegistering(true);
@@ -69,7 +81,8 @@ function ModalLogin(props) {
         if (response.ok) {
             const token = await response.text();
             console.log(token);
-    
+            setToken(token);
+            localStorage.setItem('token', token);
             props.onLogin();
         } else {
             alert('Error logging in');

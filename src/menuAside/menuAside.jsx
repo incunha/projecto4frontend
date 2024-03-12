@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
 import './menuAside.css';
 import AddTaskButton from '../buttons/addTaskButton/addTaskButton';
-import TaskModal from '../modal-addTask';
-import AddUserButton from '../buttons/addTaskButton/button-addUser/button-addUser';
+import TaskModal from '../modal-addTask/modal-addTask';
+import AddUserButton from '../buttons/addTaskButton/button-addUser/addUserButton';
 import ModalAddUser from '../modal-addUser/modal-addUser';
-
-
 
 function MenuAside() {
     const [isOpen, setIsOpen] = useState(false);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); 
+    const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false); 
 
     const handleToggle = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(prevIsOpen => !prevIsOpen);
+        setIsAddUserModelOpen(false); // Close the user modal when the aside opens
     };
 
     const handleAddTask = () => {
-        setIsTaskModalOpen(true); 
+        setIsTaskModalOpen(!isTaskModalOpen); 
     };
 
     const handleAddUser = () => {
-        setIsRegisterModalOpen(true); 
+        setIsAddUserModelOpen(!isAddUserModelOpen); 
     };
+   
 
     const handleModalClose = () => {
         setIsTaskModalOpen(false); 
-        setIsRegisterModalOpen(false); 
+        setIsAddUserModelOpen(false); 
     };
 
     return (
@@ -42,7 +42,7 @@ function MenuAside() {
                     <AddTaskButton onClick={handleAddTask} />
                     <AddUserButton onClick={handleAddUser} />
                     <TaskModal isOpen={isTaskModalOpen} onRequestClose={handleModalClose} />
-                    <ModalAddUser isOpen={isRegisterModalOpen} onRequestClose={handleModalClose} /> {}
+                    <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
                 </div>
             )}
         </div>

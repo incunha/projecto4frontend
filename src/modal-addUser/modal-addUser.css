@@ -35,15 +35,3 @@
     justify-content: space-between;
 }
 
-.myButton {
-    padding: 10px 20px;
-    border: none;
-    background: #007BFF;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.myButton:hover {
-    background: #0056b3;
-}
