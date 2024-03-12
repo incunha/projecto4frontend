@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './username.css';
 import UserModal from './modal-user/userModal';
 
-function UserName() {
-  const [firstName, setFirstName] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+function UserName({ userName, userPhoto, updateUserInfo }) {
+    const [firstName, setFirstName] = useState(userName ? userName.split(' ')[0] : '');
+    const [userImage, setUserImage] = useState(userPhoto);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -25,6 +26,10 @@ function UserName() {
         const user = await response.json();
         const names = user.name.split(' ');
         setFirstName(names[0]);
+        setUserImage(user.userPhoto);
+        if (typeof updateUserInfo === 'function') {
+          updateUserInfo(user.name, user.userPhoto);
+        }
       } else {
         console.error('Failed to fetch user data');
       }
@@ -32,6 +37,13 @@ function UserName() {
 
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    if (userName) {
+      setFirstName(userName.split(' ')[0]);
+    }
+    setUserImage(userPhoto);
+  }, [userName, userPhoto]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -43,9 +55,10 @@ function UserName() {
 
   return (
     <div className="userName">
-      Welcome, <button onClick={handleOpenModal}>{firstName}</button>
-      <UserModal isOpen={isModalOpen} onRequestClose={handleCloseModal} />
-    </div>
+    Welcome, <button onClick={handleOpenModal}>{firstName}</button>
+    <img src={userImage} alt="User" className="userImage" />
+    <UserModal isOpen={isModalOpen} onRequestClose={handleCloseModal} updateUserInfo={updateUserInfo} />
+  </div>
   );
 }
 

@@ -26,7 +26,8 @@ function LogoutButton() {
 
     return (
         <button className="logout-button" onClick={handleLogout}>
-            Logout
+            <img src="multimedia/logout.png" alt="Logout Icon" />
+        Logout
         </button>
     );
 }

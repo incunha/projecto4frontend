@@ -34,13 +34,13 @@ function ModalAddUser({ isOpen, onRequestClose }) {
              <div className="modalAddUser">
                 <h2>Add User</h2>
                 <form>
-                    <input type="text" id="registerFirstName" className="inputField" placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
-                    <input type="text" id="registerLastName" className="inputField" placeholder="Last Name" required value={lastName} onChange={e => setLastName(e.target.value)} />
-                    <input type="email" id="registerEmail" className="inputField" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)} />
-                    <input type="text" id="registerUsername" className="inputField" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} />
-                    <input type="text" id="registerContact" className="inputField" placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
-                    <input type="url" id="userPhotoUrl" className="inputField" placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
-                    <input type="password" id="registerPassword" className="inputField" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
+                    <input type="text" id="registerFirstName" className="inputFieldAddUser" placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    <input type="text" id="registerLastName" className="inputFieldAddUser" placeholder="Last Name" required value={lastName} onChange={e => setLastName(e.target.value)} />
+                    <input type="email" id="registerEmail" className="inputFieldAddUser" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)} />
+                    <input type="text" id="registerUsername" className="inputFieldAddUser" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} />
+                    <input type="text" id="registerContact" className="inputFieldAddUser" placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
+                    <input type="url" id="userPhotoUrl" className="inputFieldAddUser" placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
+                    <input type="password" id="registerPassword" className="inputFieldAddUser" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
                     <img id="userImage" className="userImage" src={userPhoto} />
                     <button id="registerButton" className="myButton" type="submit">Register</button>
                 </form>

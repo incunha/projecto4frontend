@@ -4,11 +4,13 @@ import AddTaskButton from '../buttons/addTaskButton/addTaskButton';
 import TaskModal from '../modal-addTask/modal-addTask';
 import AddUserButton from '../buttons/addTaskButton/button-addUser/addUserButton';
 import ModalAddUser from '../modal-addUser/modal-addUser';
+import ViewUsersButton from '../buttons/addTaskButton/button-viewUsers/viewUsersButton';
 
-function MenuAside() {
+function MenuAside({ isUsersView, setIsUsersView}) {
     const [isOpen, setIsOpen] = useState(false);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
     const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false); 
+   
 
     const handleToggle = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
@@ -41,6 +43,7 @@ function MenuAside() {
                 <div>
                     <AddTaskButton onClick={handleAddTask} />
                     <AddUserButton onClick={handleAddUser} />
+                    <ViewUsersButton isUsersView={isUsersView} setIsUsersView={setIsUsersView} />
                     <TaskModal isOpen={isTaskModalOpen} onRequestClose={handleModalClose} />
                     <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
                 </div>

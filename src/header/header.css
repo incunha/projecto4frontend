@@ -4,3 +4,8 @@
     display: flex;
     position: relative;
 }
+.header div {
+    color: white;
+    margin-left: 20px;
+    margin-top: 20px;
+}

@@ -14,39 +14,56 @@ Modal.setAppElement('#root');
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userPhoto, setUserPhoto] = useState('');
+  const [isUsersView, setIsUsersView] = useState(false);
 
 
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
 
+  const updateUserInfo = (name, photo) => {
+    setUserName(name);
+    setUserPhoto(photo);
+  };
+
   return (
     <div className='App'>
       {!isLoggedIn ? (
         <>
-     <div>
+          <div>
             <BackgroundLoginVideo />
             <ModalLogin onLogin= {handleLogin} />
           </div>
-    </>
+        </>
       ) : (
         <>
-        <header>
-          <Header/>
-        </header>
-       <aside>
-            <MenuAside />
+          <header>
+            <Header userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
+          </header>
+          <aside>
+            <MenuAside isUsersView={isUsersView} setIsUsersView={setIsUsersView} />
           </aside>
-          <div className="columns">
-            <Column title="To Do" />
-            <Column title="Doing" />
-            <Column title="Done" />
-          </div>
-            <Footer />
+          {isUsersView ? (
+            <div className="columns">
+              <Column title="Developer" />
+              <Column title="Scrum Master" />
+              <Column title="Product Owner" />
+            </div>
+          ) : (
+            <div className="columns">
+              <Column title="To Do" />
+              <Column title="Doing" />
+              <Column title="Done" />
+            </div>
+          )}
+          <Footer />
         </>
       )}
-      </div>
+    </div>
   );
 }
 
-export default App
+
+export default App;

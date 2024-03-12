@@ -1,5 +1,8 @@
 .userName {
-    color: white;
+    display: flex;
+    align-items: center;
+    right: 200px;
+    position: absolute;
   }
   
   .userName button {
@@ -8,4 +11,10 @@
     color: white;
     text-decoration: underline;
     cursor: pointer;
+  }
+
+  .userImage {
+    border-radius: 50%;
+    width: 40px; 
+    height: 40px; 
   }
