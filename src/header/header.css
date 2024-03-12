@@ -2,5 +2,5 @@
     background-color: var(--green3);
     height: 60px;
     display: flex;
-    z-index: -1;
+    position: relative;
 }

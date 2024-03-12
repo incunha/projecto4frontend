@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import './menuAside.css';
+import AddTaskButton from '../buttons/addTaskButton/addTaskButton';
+import TaskModal from '../modal-addTask';
 
 function MenuAside() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
+    };
+
+    const handleAddTask = () => {
+        setIsModalOpen(true); 
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false); 
     };
 
     return (
@@ -18,6 +29,8 @@ function MenuAside() {
             </button>
             {isOpen && (
                 <div>
+                    <AddTaskButton onClick={handleAddTask} />
+                    <TaskModal isOpen={isModalOpen} onRequestClose={handleModalClose} /> {}
                 </div>
             )}
         </div>

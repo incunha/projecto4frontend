@@ -7,7 +7,9 @@ import Footer from './footer/footer.jsx';'./footer/footer.jsx';
 import MenuAside from './menuAside/menuAside.jsx';
 import Column from './column/column.jsx';
 import Header from './header/header.jsx';
+import Modal from 'react-modal';
 
+Modal.setAppElement('#root');
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

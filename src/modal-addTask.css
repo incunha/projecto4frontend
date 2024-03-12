@@ -1,0 +1,44 @@
+.task-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 70%;
+    max-width: 500px;
+    background: white;
+    padding: 20px;
+    outline: none;
+}
+
+.task-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.priority-button.low {
+    background: green;
+}
+
+.priority-button.medium {
+    background: yellow;
+}
+
+.priority-button.high {
+    background: red;
+}
+
+.status-button {
+    background: lightgrey;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
