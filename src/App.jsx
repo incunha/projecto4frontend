@@ -15,6 +15,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+
   const handleLogin = () => {
     setIsLoggedIn(true);
   };

@@ -20,7 +20,7 @@ function ModalLogin(props) {
     const [imageUrlInput, setImageUrlInput] = useState('');
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
         if (token) {
             setToken(token);
             props.onLogin();
@@ -82,7 +82,7 @@ function ModalLogin(props) {
             const token = await response.text();
             console.log(token);
             setToken(token);
-            localStorage.setItem('token', token);
+            sessionStorage.setItem('token', token);
             props.onLogin();
         } else {
             alert('Error logging in');

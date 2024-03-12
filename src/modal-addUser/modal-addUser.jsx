@@ -30,7 +30,8 @@ function ModalAddUser({ isOpen, onRequestClose }) {
             className="user-modal"
             overlayClassName="user-modal-overlay"
         >
-            <div className="modalAddUser">
+             <div className="modalAddUser-overlay" />
+             <div className="modalAddUser">
                 <h2>Add User</h2>
                 <form>
                     <input type="text" id="registerFirstName" className="inputField" placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
