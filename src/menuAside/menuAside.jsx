@@ -2,21 +2,31 @@ import React, { useState } from 'react';
 import './menuAside.css';
 import AddTaskButton from '../buttons/addTaskButton/addTaskButton';
 import TaskModal from '../modal-addTask';
+import AddUserButton from '../buttons/addTaskButton/button-addUser/button-addUser';
+import ModalAddUser from '../modal-addUser/modal-addUser';
+
+
 
 function MenuAside() {
     const [isOpen, setIsOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false); 
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
     };
 
     const handleAddTask = () => {
-        setIsModalOpen(true); 
+        setIsTaskModalOpen(true); 
+    };
+
+    const handleAddUser = () => {
+        setIsRegisterModalOpen(true); 
     };
 
     const handleModalClose = () => {
-        setIsModalOpen(false); 
+        setIsTaskModalOpen(false); 
+        setIsRegisterModalOpen(false); 
     };
 
     return (
@@ -30,7 +40,9 @@ function MenuAside() {
             {isOpen && (
                 <div>
                     <AddTaskButton onClick={handleAddTask} />
-                    <TaskModal isOpen={isModalOpen} onRequestClose={handleModalClose} /> {}
+                    <AddUserButton onClick={handleAddUser} />
+                    <TaskModal isOpen={isTaskModalOpen} onRequestClose={handleModalClose} />
+                    <ModalAddUser isOpen={isRegisterModalOpen} onRequestClose={handleModalClose} /> {}
                 </div>
             )}
         </div>
