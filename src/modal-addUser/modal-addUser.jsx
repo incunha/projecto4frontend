@@ -41,7 +41,7 @@ function ModalAddUser({ isOpen, onRequestClose }) {
                     <input type="text" id="registerContact" className="inputFieldAddUser" placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
                     <input type="url" id="userPhotoUrl" className="inputFieldAddUser" placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
                     <input type="password" id="registerPassword" className="inputFieldAddUser" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
-                    <img id="userImage" className="userImage" src={userPhoto} />
+                    <img id="userImage" className="userImageAddUser" src={userPhoto} />
                     <button id="registerButton" className="myButton" type="submit">Register</button>
                 </form>
                 <button id="cancelButton" className="myButton" onClick={handleCancelClick}>Cancel</button>
