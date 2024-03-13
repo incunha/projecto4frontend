@@ -16,4 +16,20 @@
     scrollbar-color: var(--green2) var(--white);
     display: flex;
     justify-content: center;
+    flex-direction: column;
 }
+
+.column h2 {
+    color: var(--green3);
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .column-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green2) var(--white);
+  }
