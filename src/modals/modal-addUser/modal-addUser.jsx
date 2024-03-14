@@ -1,6 +1,7 @@
 import './modal-addUser.css';
 import React, { useState } from 'react';
 import Modal from 'react-modal'; 
+import { useUsersStore } from '../../../userStore';
 
 function ModalAddUser({ isOpen, onRequestClose }) { 
     const [firstName, setFirstName] = useState('');
@@ -11,6 +12,7 @@ function ModalAddUser({ isOpen, onRequestClose }) {
     const [userPhoto, setUserPhoto] = useState('./multimedia/profile.png.png');
     const [password, setPassword] = useState('');
     const [imageUrlInput, setImageUrlInput] = useState('');
+    const registerUser = useUsersStore(state => state.registerUser);
 
     const handleImageUrlChange = (event) => {
         const imageUrl = event.target.value;
@@ -23,6 +25,13 @@ function ModalAddUser({ isOpen, onRequestClose }) {
         onRequestClose();
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const name = `${firstName} ${lastName}`;
+        await registerUser(name, username, email, contactNumber, userPhoto, password);
+        onRequestClose();
+      };
+
     return (
         <Modal
             isOpen={isOpen}
@@ -33,7 +42,7 @@ function ModalAddUser({ isOpen, onRequestClose }) {
              <div className="modalAddUser-overlay" />
              <div className="modalAddUser">
                 <h2>Add User</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <input type="text" id="registerFirstName" className="inputFieldAddUser" placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
                     <input type="text" id="registerLastName" className="inputFieldAddUser" placeholder="Last Name" required value={lastName} onChange={e => setLastName(e.target.value)} />
                     <input type="email" id="registerEmail" className="inputFieldAddUser" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)} />

@@ -14,6 +14,7 @@ function Column({ title }) {
     return false;
   });
 
+  
   return (
     <div className="column">
       <h2 className="column-title">{title}</h2>

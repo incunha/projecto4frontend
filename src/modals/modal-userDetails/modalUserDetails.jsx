@@ -2,7 +2,8 @@ import React from 'react';
 import { useUserStore } from '../../../userStore';
 import './modalUserDetails.css';
 
-function UserDetailsModal({ isOpen, user, onClose }) {
+function UserDetailsModal({ isOpen, onClose }) {
+  const { selectedUserForDetails: user } = useUserStore();
   if (!isOpen || !user) {
     return null;
   }

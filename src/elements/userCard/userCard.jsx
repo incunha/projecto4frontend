@@ -10,8 +10,9 @@ function UserCard({ username, name, photo }) {
     selectUser(username, token);
   };
 
-  const handleDoubleClick = () => {
-    openUserDetailsModal(username);
+  const handleDoubleClick = async () => {
+    await selectUser(username);
+    openUserDetailsModal();
   };
 
   return (

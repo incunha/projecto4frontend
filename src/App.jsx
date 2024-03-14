@@ -9,8 +9,7 @@ import Column from './elements/column/column.jsx';
 import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
-import { useUsersStore } from '../userStore.js';
-import { useUserStore } from '../userStore.js';
+import { useUsersStore, useUserStore } from '../userStore.js';
 
 Modal.setAppElement('#root');
 

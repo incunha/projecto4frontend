@@ -24,7 +24,7 @@ export const useUserStore = create(set => ({
       console.error(error);
     }
   },
-  openUserDetailsModal: (user) => set({ isUserDetailsModalOpen: true, selectedUserForDetails: user }),
+  openUserDetailsModal: () => set(state => ({ isUserDetailsModalOpen: true, selectedUserForDetails: state.selectedUser })),
   closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUserForDetails: null }),
 }));
 
@@ -33,7 +33,7 @@ export const useUsersStore = create(set => ({
   isUsersView: false, 
   setUsers: (users) => set({ users }),
   toggleUsersView: () => set(state => ({ isUsersView: !state.isUsersView })), 
-  
+
   fetchUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -54,32 +54,43 @@ export const useUsersStore = create(set => ({
       console.error(error);
     }
   },
+
   registerUser: async (name, username, email, contactNumber, userPhoto, password) => {
-    try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          username,
-          email,
-          contactNumber,
-          userPhoto,
-          password,
-        }),
-      });
+  try {
+    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        username,
+        email,
+        contactNumber,
+        userPhoto,
+        password,
+      }),
+    });
 
-      if (!response.ok) {
-        console.error(`Error registering user: ${response.statusText}`);
-        return;
-      }
-
+    if (!response.ok) {
+      console.error(`Error registering user: ${response.statusText}`);
+      return;
+    }
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.indexOf("application/json") !== -1) {
       const newUser = await response.json();
       set(state => ({ users: [...state.users, newUser] }));
-    } catch (error) {
-      console.error(error);
+    } else {
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+      if (responseText === 'A new user is created') {
+        
+      } else {
+        console.error('Unexpected response:', responseText);
+      }
     }
-  },
+  } catch (error) {
+    console.error(error);
+  }
+},
 }));
