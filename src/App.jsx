@@ -10,6 +10,7 @@ import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
 import { useUsersStore } from '../userStore.js';
+import { useUserStore } from '../userStore.js';
 
 Modal.setAppElement('#root');
 
@@ -20,6 +21,7 @@ function App() {
   const { isUsersView, fetchUsers, users } = useUsersStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const { isUserDetailsModalOpen, selectedUserForDetails, closeUserDetailsModal } = useUserStore();
   
 
   useEffect(() => {
@@ -78,7 +80,7 @@ function App() {
           <Footer />
         </>
       )}
-       <UserDetailsModal isOpen={isModalOpen} user={selectedUser} onClose={handleCloseModal} />
+       <UserDetailsModal isOpen={isUserDetailsModalOpen} user={selectedUserForDetails} onClose={closeUserDetailsModal} />
     </div>
   );
 }

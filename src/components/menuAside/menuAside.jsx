@@ -14,7 +14,7 @@ function MenuAside({ isUsersView, setIsUsersView}) {
 
     const handleToggle = () => {
         setIsOpen(prevIsOpen => !prevIsOpen);
-        setIsAddUserModelOpen(false); // Close the user modal when the aside opens
+        setIsAddUserModelOpen(false); 
     };
 
     const handleAddTask = () => {
