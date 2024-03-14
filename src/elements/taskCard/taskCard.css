@@ -1,0 +1,36 @@
+.task-card {
+    position: relative;
+    width: 190px;
+    height: 100px;
+    margin-top: 20px;
+    background-color: var(--grey);
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.5s ease-in-out;
+    overflow: hidden;
+  }
+  
+  .task-card:hover {
+    height: auto;
+  }
+  
+  .task-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+  
+  .task-details {
+    max-height: 0;
+    transition: all 0.5s ease;
+    overflow: hidden;
+  }
+  
+  .task-card:hover .task-details {
+    max-height: 100px; 
+  }

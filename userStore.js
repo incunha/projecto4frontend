@@ -93,4 +93,9 @@ export const useUsersStore = create(set => ({
     console.error(error);
   }
 },
+updateUser: (updatedUser) => {
+  set(state => ({
+    users: state.users.map(user => user.username === updatedUser.username ? updatedUser : user)
+  }));
+},
 }));

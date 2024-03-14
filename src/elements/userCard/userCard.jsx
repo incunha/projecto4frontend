@@ -2,23 +2,23 @@ import './userCard.css';
 import { useUserStore } from '../../../userStore';
 import React, { useState } from 'react';
 
-function UserCard({ username, name, photo }) {
+function UserCard({ user }) {
   const { selectUser, openUserDetailsModal } = useUserStore();
 
   const handleClick = () => {
     const token = sessionStorage.getItem('token'); 
-    selectUser(username, token);
+    selectUser(user.username, token);
   };
 
   const handleDoubleClick = async () => {
-    await selectUser(username);
+    await selectUser(user.username);
     openUserDetailsModal();
   };
 
   return (
     <div className="user-card" onClick={handleClick} onDoubleClick={handleDoubleClick}>
-      <img src={photo} alt={name} className="user-photo" />
-      <span className="user-name">{name}</span>
+      <img src={user.userPhoto} alt={user.name} className="user-photo" />
+      <span className="user-name">{user.name}</span>
     </div>
   );
 }
