@@ -1,15 +1,13 @@
 import './userCard.css';
 import { useUserStore } from '../../../userStore';
-import UserDetailsModal from '../../modals/modal-userDetails/modalUserDetails';
 import React, { useState } from 'react';
 
-function UserCard({ username, name, photo, onUserClick }) {
+function UserCard({ username, name, photo }) {
   const { selectUser } = useUserStore();
 
   const handleClick = () => {
     const token = sessionStorage.getItem('token'); 
     selectUser(username, token);
-    onUserClick({ username, name, photo });
   };
 
   return (

@@ -1,11 +1,14 @@
 import React from 'react';
 import './viewUsersButton.css';
+import { useUsersStore } from '../../../../userStore';
 
-function ViewUsersButton({ isUsersView, setIsUsersView }) {
+function ViewUsersButton() {
+  const { isUsersView, toggleUsersView } = useUsersStore();
+
   return (
     <button 
       className={`view-users-button ${isUsersView ? 'selected' : ''}`} 
-      onClick={() => setIsUsersView(prev => !prev)}
+      onClick={toggleUsersView}
     >
       View Users
     </button>

@@ -9,18 +9,23 @@ import Column from './elements/column/column.jsx';
 import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
+import { useUsersStore } from '../userStore.js';
 
 Modal.setAppElement('#root');
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [userName, setUserName] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const [isUsersView, setIsUsersView] = useState(false);
-  const [users, setUsers] = useState([]);
+  const { isUsersView, fetchUsers, users } = useUsersStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+  
 
   const handleOpenModal = (user) => {
     setSelectedUser(user);
@@ -39,34 +44,6 @@ function App() {
     setUserName(name);
     setUserPhoto(photo);
   };
-  useEffect(() => {
-    async function fetchUsers() {
-      const token = sessionStorage.getItem('token'); 
-
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/all', {
-        method: 'GET',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-          token: token,
-        }
-      });
-
-      if (response.status === 200) {
-        const usersArray = await response.json();
-        console.log(usersArray);
-        if (usersArray.length === 0) {
-          console.log("Users not found");
-        } else {
-          setUsers(usersArray);
-        }
-      } else if (response.status === 403) {
-        console.log("Unauthorized access");
-      }
-    }
-
-    fetchUsers();
-  }, []);
 
   return (
     <div className='App'>
@@ -83,14 +60,14 @@ function App() {
             <Header userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
           </header>
           <aside>
-            <MenuAside isUsersView={isUsersView} setIsUsersView={setIsUsersView} />
+            <MenuAside />
           </aside>
           {isUsersView ? (
             <div className="columns">
-                 <Column title="Developer" users={users.filter(user => user.role === 'developer')} onUserClick={handleOpenModal} />
-                 <Column title="Scrum Master" users={users.filter(user => user.role === 'ScrumMaster')} onUserClick={handleOpenModal} />
-                 <Column title="Product Owner" users={users.filter(user => user.role === 'Owner')} onUserClick={handleOpenModal} />
-            </div>
+             <Column title="Developer" users={users} onUserClick={handleOpenModal} />
+            <Column title="Scrum Master" users={users} onUserClick={handleOpenModal} />
+            <Column title="Product Owner" users={users} onUserClick={handleOpenModal} />
+       </div>
           ) : (
             <div className="columns">
               <Column title="To Do" />
@@ -105,6 +82,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
