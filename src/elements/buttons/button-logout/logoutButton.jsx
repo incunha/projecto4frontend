@@ -1,6 +1,6 @@
 import React from 'react';
 import './logoutButton.css';
-import useAuthStore from '../../../../authStore'; 
+import useAuthStore from '../../../../authStore';
 
 function LogoutButton() {
     const setToken = useAuthStore(state => state.setToken); 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import './menuAside.css';
-import AddTaskButton from '../buttons/addTaskButton/addTaskButton';
-import TaskModal from '../modal-addTask/modal-addTask';
-import AddUserButton from '../buttons/addTaskButton/button-addUser/addUserButton';
-import ModalAddUser from '../modal-addUser/modal-addUser';
-import ViewUsersButton from '../buttons/addTaskButton/button-viewUsers/viewUsersButton';
+import AddTaskButton from '../../elements/buttons/button-addtask/addTaskButton';
+import TaskModal from '../../modals/modal-addTask/modal-addTask';
+import AddUserButton from '../../elements/buttons/button-addUser/addUserButton';
+import ModalAddUser from '../../modals/modal-addUser/modal-addUser';
+import ViewUsersButton from '../../elements/buttons/button-viewUsers/viewUsersButton';
 
 function MenuAside({ isUsersView, setIsUsersView}) {
     const [isOpen, setIsOpen] = useState(false);

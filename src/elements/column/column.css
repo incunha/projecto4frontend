@@ -23,6 +23,7 @@
     color: var(--green3);
     margin-bottom: 20px;
     text-align: center;
+    border-bottom: 2px solid var(--green3);
   }
   
   .column-content {

@@ -1,13 +1,14 @@
 import './App.css'
 import './assets/background-video/background-video.jsx';
 import BackgroundLoginVideo from './assets/background-video/background-video.jsx';
-import ModalLogin from './modal-login/modal-login.jsx';
+import ModalLogin from './modals/modal-login/modal-login.jsx';
 import React, { useState, useEffect } from 'react';
-import Footer from './footer/footer.jsx';'./footer/footer.jsx';
-import MenuAside from './menuAside/menuAside.jsx';
-import Column from './column/column.jsx';
-import Header from './header/header.jsx';
+import Footer from './components/footer/footer.jsx';
+import MenuAside from './components/menuAside/menuAside.jsx';
+import Column from './elements/column/column.jsx';
+import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
+import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
 
 Modal.setAppElement('#root');
 
@@ -18,7 +19,17 @@ function App() {
   const [userPhoto, setUserPhoto] = useState('');
   const [isUsersView, setIsUsersView] = useState(false);
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
+  const handleOpenModal = (user) => {
+    setSelectedUser(user);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -76,9 +87,9 @@ function App() {
           </aside>
           {isUsersView ? (
             <div className="columns">
-             <Column title="Developer" users={users.filter(user => user.role === 'developer')} />
-             <Column title="Scrum Master" users={users.filter(user => user.role === 'ScrumMaster')} />
-             <Column title="Product Owner" users={users.filter(user => user.role === 'Owner')} />
+                 <Column title="Developer" users={users.filter(user => user.role === 'developer')} onUserClick={handleOpenModal} />
+                 <Column title="Scrum Master" users={users.filter(user => user.role === 'ScrumMaster')} onUserClick={handleOpenModal} />
+                 <Column title="Product Owner" users={users.filter(user => user.role === 'Owner')} onUserClick={handleOpenModal} />
             </div>
           ) : (
             <div className="columns">
@@ -90,6 +101,7 @@ function App() {
           <Footer />
         </>
       )}
+       <UserDetailsModal isOpen={isModalOpen} user={selectedUser} onClose={handleCloseModal} />
     </div>
   );
 }

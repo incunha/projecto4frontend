@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './username.css';
-import UserModal from './modal-user/userModal';
+import UserModal from '../../modals/modal-user/userModal';
 
 function UserName({ userName, userPhoto, updateUserInfo }) {
     const [firstName, setFirstName] = useState(userName ? userName.split(' ')[0] : '');

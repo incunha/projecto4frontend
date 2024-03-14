@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './header.css'; 
-import LogoutButton from '../buttons/addTaskButton/button-logout/logoutButton';
-import UserName from '../username';
-import { useState, useEffect } from 'react';
+import LogoutButton from '../../elements/buttons/button-logout/logoutButton'
+import UserName from '../../elements/username/username'
 
 function Header({ userName, userPhoto, updateUserInfo }) {
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -25,5 +25,11 @@ function Header({ userName, userPhoto, updateUserInfo }) {
         </header>
     );
 }
+
+Header.propTypes = {
+    userName: PropTypes.string.isRequired,
+    userPhoto: PropTypes.string.isRequired,
+    updateUserInfo: PropTypes.func.isRequired
+};
 
 export default Header;

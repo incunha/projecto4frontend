@@ -3,6 +3,7 @@
     align-items: center;
     right: 200px;
     position: absolute;
+    margin-top: -3px !important;
   }
   
   .userName button {

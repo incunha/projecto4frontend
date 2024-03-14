@@ -1,8 +1,6 @@
 import './modal-login.css';
 import React, { useState, useEffect } from 'react';
-import useAuthStore from '../../authStore';
-
-
+import useAuthStore from '../../../authStore';
 
 
 function ModalLogin(props) {
