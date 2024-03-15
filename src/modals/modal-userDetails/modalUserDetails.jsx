@@ -47,9 +47,8 @@ function UserDetailsModal({ isOpen, onClose }) {
       })
     });
     if (response.ok) {
-      alert('User data updated successfully');
-      const updateUser = await response.json();
-      useUserStore.getState().updateUser(updateUser);
+      alert('User data updated successfully');  
+      useUserStore.getState().setUsers(fetchUsers());
       setIsEditing(false);
       onClose();
     } else {
