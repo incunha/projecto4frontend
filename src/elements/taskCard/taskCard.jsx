@@ -17,7 +17,6 @@ function TaskCard({ task }) {
       });
       if (response.ok) {
         const userInfo = await response.json();
-        console.log('User info:', userInfo);
         fetchUserImage(userInfo.username);
       } else {
         console.error('Error fetching user info:', response.statusText);
@@ -35,7 +34,6 @@ function TaskCard({ task }) {
       });
       if (response.ok) {
         const userData = await response.json();
-        console.log('User image URL:', userData.userPhoto);
         setUserImage(userData.userPhoto);
       } else {
         console.error('Error fetching user image:', response.statusText);
@@ -64,7 +62,7 @@ function TaskCard({ task }) {
   };
 
   return (
-    <div className="task-card" style={{ backgroundColor: getBackgroundColor(), border: `10px solid ${getBorderColor()}` }}>
+    <div className="task-card" style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }}>
       <div className="user-image">
         <img src={userImage} alt={user} />
       </div>

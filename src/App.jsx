@@ -5,11 +5,13 @@ import ModalLogin from './modals/modal-login/modal-login.jsx';
 import React, { useState, useEffect } from 'react';
 import Footer from './components/footer/footer.jsx';
 import MenuAside from './components/menuAside/menuAside.jsx';
-import Column from './elements/column/column.jsx';
 import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
 import { useUsersStore, useUserStore } from '../userStore.js';
+import { useRoutes, Routes, Route } from 'react-router-dom';
+import Tasks from './elements/tasks';
+import Users from './elements/users';
 
 Modal.setAppElement('#root');
 
@@ -21,7 +23,7 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const { isUserDetailsModalOpen, selectedUserForDetails, closeUserDetailsModal } = useUserStore();
-  
+  const [isUsersRouteVisible, setIsUsersRouteVisible] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -49,37 +51,27 @@ function App() {
   return (
     <div className='App'>
       {!isLoggedIn ? (
-        <>
-          <div>
-            <BackgroundLoginVideo />
-            <ModalLogin onLogin= {handleLogin} />
-          </div>
-        </>
+        <div>
+          <BackgroundLoginVideo />
+          <ModalLogin onLogin= {handleLogin} />
+        </div>
       ) : (
         <>
           <header>
             <Header userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
           </header>
           <aside>
-            <MenuAside />
+          <MenuAside onToggleUsersRoute={() => setIsUsersRouteVisible(prev => !prev)} />
           </aside>
-          {isUsersView ? (
-            <div className="columns">
-             <Column title="Developer" users={users} onUserClick={handleOpenModal} />
-            <Column title="Scrum Master" users={users} onUserClick={handleOpenModal} />
-            <Column title="Product Owner" users={users} onUserClick={handleOpenModal} />
-       </div>
-          ) : (
-            <div className="columns">
-              <Column title="To Do" />
-              <Column title="Doing" />
-              <Column title="Done" />
-            </div>
-          )}
+          <Routes>
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/users" element={<Users users={users} onUserClick={handleOpenModal} />} />
+          <Route path="/" element={<Tasks />} />
+          </Routes>
           <Footer />
         </>
       )}
-       <UserDetailsModal isOpen={isUserDetailsModalOpen} user={selectedUserForDetails} onClose={closeUserDetailsModal} />
+      <UserDetailsModal isOpen={isUserDetailsModalOpen} user={selectedUserForDetails} onClose={closeUserDetailsModal} />
     </div>
   );
 }

@@ -4,6 +4,7 @@ export const useUserStore = create(set => ({
   selectedUser: null,
   isUserDetailsModalOpen: false,
   selectedUserForDetails: null,
+  
   selectUser: async (username) => {
     try {
       const token = sessionStorage.getItem('token'); 
