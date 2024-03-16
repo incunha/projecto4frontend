@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './taskCard.css';
+import TaskModal from '../../modals/modal-task/modalTask';
 
 function TaskCard({ task }) {
   const { title, user, priority } = task;
   const [userImage, setUserImage] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleDoubleClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -62,13 +72,13 @@ function TaskCard({ task }) {
   };
 
   return (
-    <div className="task-card" style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }}>
+    <div className="task-card" style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }} onDoubleClick={handleDoubleClick}>
       <div className="user-image">
         <img src={userImage} alt={user} />
       </div>
       <div className="task-title">{title}</div>
+      {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
     </div>
   );
 }
-
 export default TaskCard;
