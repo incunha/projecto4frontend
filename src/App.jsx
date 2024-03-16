@@ -9,7 +9,7 @@ import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
 import { useUsersStore, useUserStore } from '../userStore.js';
-import { useRoutes, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Tasks from './elements/tasks';
 import Users from './elements/users';
 
@@ -19,11 +19,11 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const { isUsersView, fetchUsers, users } = useUsersStore();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const {fetchUsers, users } = useUsersStore();
+  const [setIsModalOpen] = useState(false);
+  const [setSelectedUser] = useState(null);
   const { isUserDetailsModalOpen, selectedUserForDetails, closeUserDetailsModal } = useUserStore();
-  const [isUsersRouteVisible, setIsUsersRouteVisible] = useState(false);
+  const [ setIsUsersRouteVisible] = useState(false);
 
   useEffect(() => {
     fetchUsers();

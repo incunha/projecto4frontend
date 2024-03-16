@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useCategoryStore from '../../../categoryStore';
+import ConfirmationModal from '../modal-confirmation/confirmationModal';
 import './categoriesModal.css';
 
 function CategoriesModal({isOpen, onRequestClose}) {
@@ -8,6 +9,9 @@ function CategoriesModal({isOpen, onRequestClose}) {
   const deleteCategory = useCategoryStore(state => state.deleteCategory);
   const [isCreating, setIsCreating] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+  const [categoryToEdit, setCategoryToEdit] = useState(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -16,7 +20,41 @@ function CategoriesModal({isOpen, onRequestClose}) {
   }, [isOpen, fetchCategories]);
 
   const handleDelete = (categoryName) => {
-    deleteCategory(categoryName);
+    setCategoryToDelete(categoryName);
+    setIsConfirmationModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    deleteCategory(categoryToDelete);
+    setIsConfirmationModalOpen(false);
+  };
+
+  const handleEdit = (category) => {
+    setCategoryToEdit(category);
+    setNewCategoryName(category.name);
+  };
+
+  const handleConfirmEdit = async () => {
+    console.log(categoryToEdit);
+    try {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/updateCategory', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify({ id: categoryToEdit.id, name: newCategoryName }),
+      });
+      if (!response.ok) {
+        console.error(`Error updating category: ${response.statusText}`);
+        return;
+      }
+      fetchCategories();
+      setCategoryToEdit(null);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleCreate = async () => {
@@ -43,8 +81,6 @@ function CategoriesModal({isOpen, onRequestClose}) {
     }
   };
 
-
-
   if (!isOpen) {
     return null;
   }
@@ -53,7 +89,6 @@ function CategoriesModal({isOpen, onRequestClose}) {
     <div className="categories-modal-overlay">
       <div className="categories-modal">
         <button onClick={onRequestClose}>Close Modal</button>
-
         {isCreating ? (
           <div className="modal">
             <label>
@@ -63,34 +98,47 @@ function CategoriesModal({isOpen, onRequestClose}) {
             <button onClick={handleCreate}>Add</button>
             <button onClick={() => setIsCreating(false)}>Cancel</button>
           </div>
+        ) : categoryToEdit ? (
+          <div className="modal">
+            <label>
+              New name:
+              <input type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
+            </label>
+            <button onClick={handleConfirmEdit}>Confirm</button>
+            <button onClick={() => setCategoryToEdit(null)}>Cancel</button>
+          </div>
         ) : (
           <div className="modal">
             <button onClick={() => setIsCreating(true)}>Create Category</button>
             <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map(category => (
-                <tr key={category.id}>
-                  <td>{category.name}</td>
-                  <td><button className="icon-button">✏️</button></td> 
-                  <td><button className="icon-button" onClick={() => handleDelete(category.name)}>🗑️</button></td> 
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-  )}
-</div>
-</div>
-)
-
+              </thead>
+              <tbody>
+                {categories.map(category => (
+                  <tr key={category.id}>
+                    <td>{category.name}</td>
+                    <button className="icon-button" onClick={() => handleEdit(category)}>✏️</button>
+                    <td><button className="icon-button" onClick={() => handleDelete(category.name)}>🗑️</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        <ConfirmationModal
+          isOpen={isConfirmationModalOpen} 
+          onRequestClose={() => setIsConfirmationModalOpen(false)} 
+          message="Are you sure you want to delete this category?" 
+          onConfirm={handleConfirmDelete}
+        />
+      </div>
+    </div>
+  );
 }
-
 
 export default CategoriesModal;
