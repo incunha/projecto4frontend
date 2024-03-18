@@ -8,6 +8,7 @@ function TaskCard({ task }) {
   const [userImage, setUserImage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+
   const handleDoubleClick = () => {
     setIsModalOpen(true);
   };
@@ -73,7 +74,7 @@ function TaskCard({ task }) {
   };
 
   return (
-    <div className="task-card" style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }} onDoubleClick={handleDoubleClick}>
+    <div className="task-card" draggable = "true" onDragStart={(event)=>{event.dataTransfer.setData('text/plain',task.id)}} style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }} onDoubleClick={handleDoubleClick}>
       <div className="user-image">
         <img src={userImage} alt={user} />
       </div>

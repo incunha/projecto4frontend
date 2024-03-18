@@ -5,12 +5,27 @@ import TaskCard from '../taskCard/taskCard';
 import { useUserStore } from '../../../userStore'; 
 import  useTasksStore  from '../../../taskStore'; 
 
-  
 function Column({ title, items, CardComponent, onCardClick }) {
+  const {updateStatus, fetchTasks} = useTasksStore();
+
+  const statusMapping = {
+    "To Do": 10,
+    "Doing": 20,
+    "Done": 30
+  };
+
   return (
     <div className="column">
       <h2 className="column-title">{title}</h2>
-      <div className="column-content">
+      <div className="column-content" 
+           onDragOver={(event)=> event.preventDefault()} 
+           onDrop={async (event)=>{
+             const taskId= event.dataTransfer.getData('text/plain');
+             const status = statusMapping[title];
+             await updateStatus(taskId, status);
+             fetchTasks();
+           }}
+      >
         {items.map(item => {
           const props = {
             key: item.id || item.username,
