@@ -1,7 +1,7 @@
 import './modal-addUser.css';
 import React, { useState } from 'react';
 import Modal from 'react-modal'; 
-import { useUsersStore } from '../../../userStore';
+import { useUserStore } from '../../../userStore';
 
 function ModalAddUser({ isOpen, onRequestClose }) { 
     const [firstName, setFirstName] = useState('');
@@ -12,7 +12,7 @@ function ModalAddUser({ isOpen, onRequestClose }) {
     const [userPhoto, setUserPhoto] = useState('./multimedia/profile.png.png');
     const [password, setPassword] = useState('');
     const [imageUrlInput, setImageUrlInput] = useState('');
-    const registerUser = useUsersStore(state => state.registerUser);
+    const registerUser = useUserStore(state => state.registerUser);
 
     const handleImageUrlChange = (event) => {
         const imageUrl = event.target.value;

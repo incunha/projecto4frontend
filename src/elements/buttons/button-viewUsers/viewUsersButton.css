@@ -9,6 +9,6 @@
     white-space: nowrap;
   }
   
-  .view-users-button.selected {
+  .view-users-button:hover {
     color: var(--green3);
   }

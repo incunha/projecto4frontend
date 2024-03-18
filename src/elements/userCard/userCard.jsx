@@ -3,6 +3,9 @@ import { useUserStore } from '../../../userStore';
 import React, { useState } from 'react';
 
 function UserCard({ user }) {
+  if (!user) {
+    return null;
+  }
   const { selectUser, openUserDetailsModal } = useUserStore();
 
   const handleClick = () => {

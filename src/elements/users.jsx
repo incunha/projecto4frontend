@@ -1,31 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Column from './column/column.jsx';
-import { useUsersStore } from '../../userStore.js';
+import { useUserStore } from '../../userStore.js';
+import UserCard from './userCard/userCard.jsx';
 
-function Users({ users, onUserClick }) {
-    const { isUsersView } = useUsersStore();
-    
-    const userColumns = users ? {
-      'Developer': users.filter(user => user.role === 'developer'),
-      'Scrum Master': users.filter(user => user.role === 'ScrumMaster'),
-      'Product Owner': users.filter(user => user.role === 'Owner')
-    } : {};
-  
-    const taskColumns = ['To Do', 'Doing', 'Done'];
-    
-    return (
-      <div className="columns">
-        {isUsersView ? (
-          Object.entries(userColumns).map(([title, users]) => (
-            <Column key={title} title={title} users={users} onUserClick={onUserClick} />
-          ))
-        ) : (
-          taskColumns.map(title => (
-            <Column key={title} title={title} users={users} onUserClick={onUserClick} />
-          ))
-        )}
-      </div>
-    );
+function Users() {
+  const userColumns = ['Developer', 'Scrum Master', 'Product Owner'];
+const roleMapping = {
+  'Developer': 'developer',
+  'Scrum Master': 'ScruMaster',
+  'Product Owner': 'Owner'
+};
+
+
+  const {users, fetchUsers, selectUser: selectUserInStore} = useUserStore();
+
+  useEffect(() => {
+    fetchUsers().then(() => {
+      
+    });
+  }, [fetchUsers]);
+
+  const selectUser = (user) => {
+    const token = sessionStorage.getItem('token');
+    selectUserInStore(user.username, token);
   }
+
+  return (
+    <div className="columns">
+      {userColumns.map(title => (
+        <Column
+          key={title}
+          title={title}
+          items={users.filter(user => user.role === roleMapping[title])}
+          CardComponent={UserCard}
+          onCardClick={selectUser}
+        />
+      ))}
+    </div>
+  );
+}
 
 export default Users;

@@ -1,27 +1,17 @@
 import React from 'react';
 import './viewUsersButton.css';
-import { useUsersStore } from '../../../../userStore';
+import { useUserStore } from '../../../../userStore';
 import { useNavigate } from 'react-router-dom';
 
-function ViewUsersButton({ onClick }) {
-  const { isUsersView, toggleUsersView } = useUsersStore();
+function ViewUsersButton() {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    toggleUsersView();
-    if (isUsersView) {
-      navigate('/tasks');
-    } else {
-      navigate('/users');
-    }
-    onClick();
+    navigate('/users');
   };
 
   return (
-    <button 
-      className={`view-users-button ${isUsersView ? 'selected' : ''}`} 
-      onClick={handleClick}
-    >
+    <button className="view-users-button" onClick={handleClick}>
       View Users
     </button>
   );

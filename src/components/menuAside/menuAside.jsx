@@ -10,13 +10,17 @@ import CategoriesButton from '../../elements/buttons/button-categories/categorie
 import CategoriesModal from '../../modals/modal-categories/categoriesModal';
 import ViewUsersButton from '../../elements/buttons/button-viewUsers/viewUsersButton';
 import Users from '../../elements/users';
+import ViewTasksButton from '../../elements/buttons/button-viewTaks/viewTasksButton';
+import { useUserStore } from '../../../userStore';
 
 function MenuAside() {
   const [isOpen, setIsOpen] = useState(false);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
   const [isCategoriesModelOpen, setIsCategoriesModelOpen] = useState(false);
-  const [isUsersVisible, setIsUsersVisible] = useState(false);
+  const isUsersVisible = useUserStore(state => state.isUsersVisible);
+  const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
+ 
 
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
@@ -41,8 +45,9 @@ function MenuAside() {
   };
 
   const handleViewUsers = () => {
-    setIsUsersVisible(!isUsersVisible);
+    setIsUsersVisible();
   };
+
 
   return (
     <div className={`aside-menu ${isOpen ? 'open' : ''}`}>
@@ -54,9 +59,11 @@ function MenuAside() {
       </button>
       {isOpen && (
         <div>
-          <Link to="/tasks"><AddTaskButton onClick={handleAddTask} /></Link>
-          <Link to="/users"><AddUserButton onClick={handleAddUser} /></Link>
+          <ViewTasksButton />
+          <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />
+          
+
           <TaskModal isOpen={isTaskModalOpen} onRequestClose={handleModalClose} />
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
           <CategoriesButton onClick={handleCategories} />

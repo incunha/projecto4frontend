@@ -3,6 +3,7 @@ import './taskCard.css';
 import TaskModal from '../../modals/modal-task/modalTask';
 
 function TaskCard({ task }) {
+  
   const { title, user, priority } = task;
   const [userImage, setUserImage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);

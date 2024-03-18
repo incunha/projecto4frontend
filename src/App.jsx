@@ -8,10 +8,12 @@ import MenuAside from './components/menuAside/menuAside.jsx';
 import Header from './components/header/header.jsx';
 import Modal from 'react-modal';
 import UserDetailsModal from './modals/modal-userDetails/modalUserDetails';
-import { useUsersStore, useUserStore } from '../userStore.js';
+import { useUserStore } from '../userStore.js';
 import { Routes, Route } from 'react-router-dom';
 import Tasks from './elements/tasks';
 import Users from './elements/users';
+import useTasksStore from '../taskStore.js';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -19,15 +21,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const {fetchUsers, users } = useUsersStore();
+  const {fetchUsers, users } = useUserStore();
   const [setIsModalOpen] = useState(false);
   const [setSelectedUser] = useState(null);
   const { isUserDetailsModalOpen, selectedUserForDetails, closeUserDetailsModal } = useUserStore();
   const [ setIsUsersRouteVisible] = useState(false);
+  const { tasks, fetchTasks } = useTasksStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    fetchTasks();
+  }, []);
   
 
   const handleOpenModal = (user) => {
@@ -41,6 +46,7 @@ function App() {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
+    navigate('/tasks');
   };
 
   const updateUserInfo = (name, photo) => {
@@ -64,9 +70,9 @@ function App() {
           <MenuAside onToggleUsersRoute={() => setIsUsersRouteVisible(prev => !prev)} />
           </aside>
           <Routes>
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/users" element={<Users users={users} onUserClick={handleOpenModal} />} />
-          <Route path="/" element={<Tasks />} />
+          <Route path="/tasks" element={<Tasks tasks={tasks} />} />
+          <Route path="/users" element={<Users users={users} />} />
+         <Route path="/" element={<Tasks tasks={tasks} />} />
           </Routes>
           <Footer />
         </>
