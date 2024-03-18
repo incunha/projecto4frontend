@@ -1,11 +1,10 @@
-// MenuAside.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './menuAside.css';
 import AddTaskButton from '../../elements/buttons/button-addtask/addTaskButton';
-import TaskModal from '../../modals/modal-addTask/modal-addTask';
 import AddUserButton from '../../elements/buttons/button-addUser/addUserButton';
 import ModalAddUser from '../../modals/modal-addUser/modal-addUser';
+import AddTaskModal from '../../modals/modal-addTask/modal-addTask';
 import CategoriesButton from '../../elements/buttons/button-categories/categoriesButton';
 import CategoriesModal from '../../modals/modal-categories/categoriesModal';
 import ViewUsersButton from '../../elements/buttons/button-viewUsers/viewUsersButton';
@@ -15,28 +14,27 @@ import { useUserStore } from '../../../userStore';
 
 function MenuAside() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
+  const [isAddTaskModelOpen, setIsAddTaskModelOpen] = useState(false);
   const [isCategoriesModelOpen, setIsCategoriesModelOpen] = useState(false);
   const isUsersVisible = useUserStore(state => state.isUsersVisible);
   const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
- 
 
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
     setIsAddUserModelOpen(false);
   };
 
-  const handleAddTask = () => {
-    setIsTaskModalOpen(!isTaskModalOpen);
-  };
-
   const handleAddUser = () => {
     setIsAddUserModelOpen(!isAddUserModelOpen);
   };
 
+  const handleAddTask = () => {
+    setIsAddTaskModelOpen(!isAddTaskModelOpen);
+  }
+  
+
   const handleModalClose = () => {
-    setIsTaskModalOpen(false);
     setIsAddUserModelOpen(false);
   };
 
@@ -48,7 +46,6 @@ function MenuAside() {
     setIsUsersVisible();
   };
 
-
   return (
     <div className={`aside-menu ${isOpen ? 'open' : ''}`}>
       <button className="menu-button" onClick={handleToggle}>
@@ -59,12 +56,11 @@ function MenuAside() {
       </button>
       {isOpen && (
         <div>
+          <AddTaskButton onClick={handleAddTask} />
+          <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
           <ViewTasksButton />
           <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />
-          
-
-          <TaskModal isOpen={isTaskModalOpen} onRequestClose={handleModalClose} />
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
           <CategoriesButton onClick={handleCategories} />
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />

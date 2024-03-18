@@ -88,7 +88,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
   return (
     <div className="categories-modal-overlay">
       <div className="categories-modal">
-        <button onClick={onRequestClose}>Close Modal</button>
+        
         {isCreating ? (
           <div className="modal">
             <label>
@@ -96,6 +96,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
               <input type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
             </label>
             <button onClick={handleCreate}>Add</button>
+            
             <button onClick={() => setIsCreating(false)}>Cancel</button>
           </div>
         ) : categoryToEdit ? (
@@ -109,6 +110,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
           </div>
         ) : (
           <div className="modal">
+            <button onClick={onRequestClose}>Close Modal</button>
             <button onClick={() => setIsCreating(true)}>Create Category</button>
             <table>
               <thead>
@@ -119,24 +121,29 @@ function CategoriesModal({isOpen, onRequestClose}) {
                 </tr>
               </thead>
               <tbody>
-                {categories.map(category => (
-                  <tr key={category.id}>
-                    <td>{category.name}</td>
-                    <button className="icon-button" onClick={() => handleEdit(category)}>✏️</button>
-                    <td><button className="icon-button" onClick={() => handleDelete(category.name)}>🗑️</button></td>
-                  </tr>
-                ))}
+              {categories.map(category => (
+  <tr key={category.id}>
+    <td>{category.name}</td>
+    <td>
+      <button className="icon-button" onClick={() => handleEdit(category)}>✏️</button>
+    </td>
+    <td>
+      <button className="icon-button" onClick={() => handleDelete(category.name)}>🗑️</button>
+    </td>
+  </tr>
+))}
               </tbody>
             </table>
           </div>
         )}
-        <ConfirmationModal
+       
+      </div>
+       <ConfirmationModal
           isOpen={isConfirmationModalOpen} 
           onRequestClose={() => setIsConfirmationModalOpen(false)} 
           message="Are you sure you want to delete this category?" 
           onConfirm={handleConfirmDelete}
         />
-      </div>
     </div>
   );
 }
