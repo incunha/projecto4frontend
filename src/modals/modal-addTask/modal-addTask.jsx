@@ -1,54 +1,86 @@
-import React from 'react';
-import Modal from 'react-modal';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState, useEffect } from 'react';
+import useCategoryStore from '../../../categoryStore';
+import useTasksStore from '../../../taskStore';
 import './modal-addTask.css';
 
-const TaskModal = ({ isOpen, onRequestClose }) => {
-    return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            className="task-modal"
-            overlayClassName="task-modal-overlay"
-        >
-            <h2>Add Task</h2>
-            <input type="text" placeholder="Title" className="title-input"/>
-            <textarea placeholder="Description" />
-            <div className="button-group">
-    <div className="field-container">
-        <label>Priority</label>
-        <div>
-            <button className="priority-button low">Low</button>
-            <button className="priority-button medium">Medium</button>
-            <button className="priority-button high">High</button>
-        </div>
-    </div>
+function AddTaskModal({ isOpen, onRequestClose }) {
+  const categories = useCategoryStore(state => state.categories);
+  const fetchCategories = useCategoryStore(state => state.fetchCategories);
+  const fetchTasks = useTasksStore(state => state.fetchTasks);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [priority, setPriority] = useState('');
+  const [category, setCategory] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [warning, setWarning] = useState('');
 
-    <div className="field-container">
-        <label>Status</label>
-        <div>
-        <button className="status-button to-do">To Do</button>
-        <button className="status-button doing">Doing</button>
-        <button className="status-button done">Done</button>
-        </div>
-    </div>
-</div>
+  useEffect(() => {
+    if (isOpen) {
+      fetchCategories();
+    }
+  }, [isOpen, fetchCategories]);
 
-<div className="dates-container">
-    <div className="field-container">
-        <label>Initial Date</label>
-        <DatePicker selected={new Date()} onChange={date => console.log(date)} />
-    </div>
+  const handleCreate = async () => {
+    if (!title || !description || !priority || !category || !startDate || !endDate) {
+      setWarning('Please fill in all fields');
+      return;
+    }
 
-    <div className="field-container">
-        <label>Final Date</label>
-        <DatePicker selected={new Date()} onChange={date => console.log(date)} />
-    </div>
-</div>
-            <button onClick={onRequestClose}>Close</button>
-        </Modal>
-    );
-};
+    try {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify({ title, description, priority, startDate, endDate, category }),
+      });
 
-export default TaskModal;
+      if (!response.ok) {
+        console.error(`Error creating task: ${response.statusText}`);
+        return;
+      }
+      fetchTasks();
+      onRequestClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return isOpen ? (
+    <div className={`add-task-modal-overlay ${isOpen ? 'open' : ''}`}>
+      <div className="add-task-modal">
+        <h2>Add Task</h2>
+        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
+        <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+        <select value={priority} onChange={e => setPriority(e.target.value)}>
+          <option value="">Select Priority</option>
+          <option value="100">Low</option>
+          <option value="200">Medium</option>
+          <option value="300">High</option>
+        </select>
+        <select value={category} onChange={e => setCategory(e.target.value)}>
+          <option value="">Select Category</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.name}>{category.name}</option>
+          ))}
+        </select>
+        <label>
+  Start Date
+  <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+</label>
+<label>
+  End Date
+  <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+</label>
+        {warning && <p className="warning">{warning}</p>}
+        <button onClick={handleCreate}>Create</button>
+        <button onClick={onRequestClose}>Cancel</button>
+      </div>
+    </div>
+  ) : null;
+}
+
+export default AddTaskModal;
