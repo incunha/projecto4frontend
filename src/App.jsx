@@ -12,6 +12,7 @@ import { useUserStore } from '../userStore.js';
 import { Routes, Route } from 'react-router-dom';
 import Tasks from './elements/tasks';
 import Users from './elements/users';
+import DeletedTasks from './elements/deletedTasks';
 import useTasksStore from '../taskStore.js';
 import { useNavigate } from 'react-router-dom';
 
@@ -72,7 +73,8 @@ function App() {
           <Routes>
           <Route path="/tasks" element={<Tasks tasks={tasks} />} />
           <Route path="/users" element={<Users users={users} />} />
-         <Route path="/" element={<Tasks tasks={tasks} />} />
+          <Route path="/deletedTasks" element={ <DeletedTasks />} />
+          <Route path="/" element={<Tasks tasks={tasks} />} />
           </Routes>
           <Footer />
         </>

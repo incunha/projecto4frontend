@@ -10,7 +10,10 @@ import CategoriesModal from '../../modals/modal-categories/categoriesModal';
 import ViewUsersButton from '../../elements/buttons/button-viewUsers/viewUsersButton';
 import Users from '../../elements/users';
 import ViewTasksButton from '../../elements/buttons/button-viewTaks/viewTasksButton';
+import ViewDeletedTasksButton from '../../elements/buttons/button-viewDeletedTasks/viewDeletedTasksButton';
 import { useUserStore } from '../../../userStore';
+import DeletedTasks from '../../elements/deletedTasks';
+
 
 function MenuAside() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +22,8 @@ function MenuAside() {
   const [isCategoriesModelOpen, setIsCategoriesModelOpen] = useState(false);
   const isUsersVisible = useUserStore(state => state.isUsersVisible);
   const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
+  const [viewDeletedTasks, setViewDeletedTasks] = useState(false);
+ 
 
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
@@ -46,6 +51,12 @@ function MenuAside() {
     setIsUsersVisible();
   };
 
+  const handleViewDeletedTasks = () => {
+    setViewDeletedTasks(!viewDeletedTasks);
+  };
+
+  
+
   return (
     <div className={`aside-menu ${isOpen ? 'open' : ''}`}>
       <button className="menu-button" onClick={handleToggle}>
@@ -59,12 +70,14 @@ function MenuAside() {
           <AddTaskButton onClick={handleAddTask} />
           <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
           <ViewTasksButton />
+          <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/>
           <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
           <CategoriesButton onClick={handleCategories} />
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
           {isUsersVisible && <Users />}
+          {viewDeletedTasks && <DeletedTasks />}
         </div>
       )}
     </div>
