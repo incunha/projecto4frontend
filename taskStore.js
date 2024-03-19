@@ -52,8 +52,8 @@ const useTasksStore = create((set) => ({
 
   deleteTask: async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/delete/${taskId}`, {
-        method: 'DELETE',
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/block/${taskId}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           'Accept': '*/*',
@@ -86,6 +86,29 @@ const useTasksStore = create((set) => ({
       
       if (!response.ok) {
         console.error(`Error fetching tasks by category: ${response.statusText}`);
+        return;
+      }
+  
+      const tasks = await response.json();
+      set({ tasks });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  fetchTasksByUser: async (username) => {
+    try {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byUser/${username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+      });
+      
+      if (!response.ok) {
+        console.error(`Error fetching tasks by user: ${response.statusText}`);
         return;
       }
   

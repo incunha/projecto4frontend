@@ -18,6 +18,7 @@ import ViewDeletedUsersButton from '../../elements/button-viewDeletedUsers/viewD
 import useCategoryStore from '../../../categoryStore';
 import useTasksStore from '../../../taskStore';
 import CategorySelect from '../../elements/categorySelect/categorySelect';
+import UserSelect from '../../elements/userSelect/userSelect';
 
 function MenuAside() {
   const [isOpen, setIsOpen] = useState(false);
@@ -82,7 +83,8 @@ function MenuAside() {
           <AddTaskButton onClick={handleAddTask} />
           <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
           <ViewTasksButton />
-          {location.pathname === '/tasks' && <CategorySelect />} {/* Add CategorySelect here */}
+          {location.pathname === '/tasks' && <CategorySelect />} {}
+          {location.pathname === '/tasks' && <UserSelect />} {}
           <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/>
           <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />
