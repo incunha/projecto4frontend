@@ -21,12 +21,12 @@ function Tasks() {
   return (
     <div className="columns">
       {taskColumns.map(title => (
-        <Column
-          key={title}
-          title={title}
-          items={tasks.filter(task => task.status === statusValues[title] && task.active)}
-          CardComponent={TaskCard}
-        />
+       <Column
+       key={title}
+       title={title}
+       items={tasks.filter(task => task.status === statusValues[title] && task.active)}
+       CardComponent={TaskCard}
+     />
       ))}
     </div>
   );

@@ -3,7 +3,8 @@ import './taskCard.css';
 import TaskModal from '../../modals/modal-task/modalTask';
 import useTasksStore from '../../../taskStore';
 
-function TaskCard({ task }) {
+function TaskCard({ task, active }) {
+
   
   const { title, user, priority } = task;
   const [userImage, setUserImage] = useState('');
@@ -13,7 +14,6 @@ function TaskCard({ task }) {
   const handleDelete = async () => {
     await deleteTask(task.id);
   };
-
 
   const handleDoubleClick = () => {
     setIsModalOpen(true);
@@ -79,8 +79,20 @@ function TaskCard({ task }) {
     }
   };
 
+  const cardStyle = {
+    opacity: active ? 1 : 0.5, 
+    backgroundColor: getBackgroundColor(), 
+    border: `7px solid ${getBorderColor()}`,
+  };
+  
   return (
-    <div className="task-card" draggable = "true" onDragStart={(event)=>{event.dataTransfer.setData('text/plain',task.id)}} style={{ backgroundColor: getBackgroundColor(), border: `7px solid ${getBorderColor()}` }} onDoubleClick={handleDoubleClick}>
+    <div className="task-card" style={cardStyle} draggable={active} onDragStart={(event)=>{
+      if (!active) {
+        event.preventDefault();
+      } else {
+        event.dataTransfer.setData('text/plain',task.id);
+      }
+    }} onDoubleClick={handleDoubleClick}>
       <div className="user-image">
         <img src={userImage} alt={user} />
       </div>

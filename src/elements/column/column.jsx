@@ -26,20 +26,22 @@ function Column({ title, items, CardComponent, onCardClick }) {
              fetchTasks();
            }}
       >
-        {items.map(item => {
-          const props = {
-            key: item.id || item.username,
-            onCardClick: () => onCardClick(item),
-          };
+      {items.map(item => {
+  const props = {
+    key: item.id || item.username,
+    onCardClick: () => onCardClick(item),
+    draggable: !item.deleted, 
+    active: item.active, // Adicione esta linha
+  };
 
-          if (CardComponent === UserCard) {
-            props.user = item;
-          } else if (CardComponent === TaskCard) {
-            props.task = item;
-          }
+  if (CardComponent === UserCard) {
+    props.user = item;
+  } else if (CardComponent === TaskCard) {
+    props.task = item;
+  }
 
-          return <CardComponent {...props} />;
-        })}
+  return <CardComponent {...props} />;
+})}
       </div>
     </div>
   );
