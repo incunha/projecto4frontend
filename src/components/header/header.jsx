@@ -19,9 +19,10 @@ function Header({ userName, userPhoto, updateUserInfo }) {
 
     return (
         <header className="header">
-             <div>{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</div>
-            <UserName userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
-            <LogoutButton/>
+          <image src = "multimedia/logo_scrum_02.png" alt = "logo" width = "100" height = "100"></image>
+          <div>{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</div>
+          <UserName userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
+          <LogoutButton/>
         </header>
     );
 }
