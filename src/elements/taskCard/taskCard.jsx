@@ -23,6 +23,22 @@ function TaskCard({ task, active }) {
     setIsModalOpen(false);
   };
 
+  const handleRestore = async () => {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/restore/${task.id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: "*/*",
+        token: sessionStorage.getItem("token"),
+      },
+    });
+    if (response.ok) {  
+      useTasksStore.getState().fetchTasks();
+    } else {
+      console.error('Failed to restore task');
+    }
+  };
+
+
   useEffect(() => {
     const fetchUserInfo = async () => {
       const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/creator/${task.id}`, {
@@ -40,6 +56,7 @@ function TaskCard({ task, active }) {
         console.error('Error fetching user info:', response.statusText);
       }
     };
+
   
     const fetchUserImage = async (username) => {
       const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/${username}`, {
@@ -98,7 +115,9 @@ function TaskCard({ task, active }) {
       </div>
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
-      <button onClick={handleDelete}>X</button>
+      <button className="deleteTaskButton" onClick={handleDelete}>X</button>
+      {!active && <button className="restoreTaskButton" onClick={handleRestore}>
+      <img src="multimedia/restore.png" alt="Restore Icon" /> </button>}
     </div>
   );
 }

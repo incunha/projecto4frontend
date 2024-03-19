@@ -32,3 +32,39 @@
     object-fit: cover; 
     margin-top: 4px;
   }
+
+  .deleteTaskButton {
+    position: absolute;
+    bottom: 1px;
+    right: 3px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .deleteTaskButton:hover {
+    font-size: 15px;
+    font-weight: bold;
+    
+  }
+
+  .restoreTaskButton {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    right: 0px;
+    top: 2px;
+  }
+
+  .restoreTaskButton img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .restoreTaskButton img:hover {
+    width: 18px;
+    height: 18px;
+  }
+
+  
