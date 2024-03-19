@@ -29,6 +29,42 @@ function UserDetailsModal({ isOpen, onClose }) {
     setIsEditing(true);
   };
 
+  const handleDeleteTasksClick = async () => {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/deleteAll/${user.username}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: "*/*",
+        token: sessionStorage.getItem("token"),
+      },
+    });
+    if (response.ok) {
+      alert('User tasks deleted successfully');  
+      useUserStore.getState().setUsers(fetchUsers());
+      setIsEditing(false);
+      onClose();
+    } else {
+      console.error('Failed to delete user tasks');
+    }
+  };
+
+  const handleDeleteUserClick = async () => {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/delete/${user.username}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: "*/*",
+        token: sessionStorage.getItem("token"),
+      },
+    });
+    if (response.ok) {
+      alert('User deleted successfully');  
+      useUserStore.getState().setUsers(fetchUsers());
+      setIsEditing(false);
+      onClose();
+    } else {
+      console.error('Failed to delete user');
+    }
+  };
+
   const handleSaveClick = async () => {
     const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
       method: 'PUT',
@@ -96,6 +132,8 @@ function UserDetailsModal({ isOpen, onClose }) {
           <button type="button" onClick={handleEditClick}>Edit</button>
           {isEditing && <button type="button" onClick={handleSaveClick}>Save</button>}
         </form>
+        <button type="button" onClick={handleDeleteTasksClick}>Delete User Tasks</button>
+        <button type="button" onClick={handleDeleteUserClick}>Delete User</button>
       </div>
     </div>
   );
