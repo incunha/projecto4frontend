@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './menuAside.css';
 import AddTaskButton from '../../elements/buttons/button-addtask/addTaskButton';
 import AddUserButton from '../../elements/buttons/button-addUser/addUserButton';
@@ -15,7 +15,9 @@ import { useUserStore } from '../../../userStore';
 import DeletedTasks from '../../elements/deletedTasks';
 import DeletedUsers from '../../elements/deletedUsers';
 import ViewDeletedUsersButton from '../../elements/button-viewDeletedUsers/viewDeletedUsersButton';
-
+import useCategoryStore from '../../../categoryStore';
+import useTasksStore from '../../../taskStore';
+import CategorySelect from '../../elements/categorySelect/categorySelect';
 
 function MenuAside() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +28,9 @@ function MenuAside() {
   const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
   const [viewDeletedTasks, setViewDeletedTasks] = useState(false);
   const [viewDeletedUsers, setViewDeletedUsers] = useState(false);
+  const location = useLocation();
+
+  
  
 
   const handleToggle = () => {
@@ -77,6 +82,7 @@ function MenuAside() {
           <AddTaskButton onClick={handleAddTask} />
           <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
           <ViewTasksButton />
+          {location.pathname === '/tasks' && <CategorySelect />} {/* Add CategorySelect here */}
           <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/>
           <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />

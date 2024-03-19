@@ -71,7 +71,31 @@ const useTasksStore = create((set) => ({
     } catch (error) {
       console.error(error);
     }
-  }
+  },
+
+  fetchTasksByCategory: async (categoryName) => {
+    try {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byCategory/${categoryName}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+      });
+      
+      if (!response.ok) {
+        console.error(`Error fetching tasks by category: ${response.statusText}`);
+        return;
+      }
+  
+      const tasks = await response.json();
+      set({ tasks });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
 }));
 
 
