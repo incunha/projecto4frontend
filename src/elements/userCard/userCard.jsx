@@ -2,7 +2,7 @@ import './userCard.css';
 import { useUserStore } from '../../../userStore';
 import React, { useState } from 'react';
 
-function UserCard({ user }) {
+function UserCard({ user, active }) {
   if (!user) {
     return null;
   }
@@ -18,8 +18,12 @@ function UserCard({ user }) {
     openUserDetailsModal();
   };
 
+  const cardStyle = {
+    opacity: active ? 1 : 0.5, 
+  };
+
   return (
-    <div className="user-card" onClick={handleClick} onDoubleClick={handleDoubleClick}>
+    <div className="user-card" style={cardStyle} onClick={handleClick} onDoubleClick={handleDoubleClick}>
       <img src={user.userPhoto} alt={user.name} className="user-photo" />
       <span className="user-name">{user.name}</span>
     </div>

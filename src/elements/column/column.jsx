@@ -31,7 +31,7 @@ function Column({ title, items, CardComponent, onCardClick }) {
     key: item.id || item.username,
     onCardClick: () => onCardClick(item),
     draggable: !item.deleted, 
-    active: item.active, // Adicione esta linha
+    active: item.active, 
   };
 
   if (CardComponent === UserCard) {
