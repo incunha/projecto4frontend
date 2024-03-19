@@ -13,6 +13,8 @@ import ViewTasksButton from '../../elements/buttons/button-viewTaks/viewTasksBut
 import ViewDeletedTasksButton from '../../elements/buttons/button-viewDeletedTasks/viewDeletedTasksButton';
 import { useUserStore } from '../../../userStore';
 import DeletedTasks from '../../elements/deletedTasks';
+import DeletedUsers from '../../elements/deletedUsers';
+import ViewDeletedUsersButton from '../../elements/button-viewDeletedUsers/viewDeletedUsersButton';
 
 
 function MenuAside() {
@@ -23,6 +25,7 @@ function MenuAside() {
   const isUsersVisible = useUserStore(state => state.isUsersVisible);
   const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
   const [viewDeletedTasks, setViewDeletedTasks] = useState(false);
+  const [viewDeletedUsers, setViewDeletedUsers] = useState(false);
  
 
   const handleToggle = () => {
@@ -55,6 +58,10 @@ function MenuAside() {
     setViewDeletedTasks(!viewDeletedTasks);
   };
 
+  const handleViewDeletedUsers = () => {
+    setViewDeletedUsers(!viewDeletedUsers);
+  };
+
   
 
   return (
@@ -73,6 +80,7 @@ function MenuAside() {
           <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/>
           <AddUserButton onClick={handleAddUser} />
           <ViewUsersButton onClick={handleViewUsers} />
+          <ViewDeletedUsersButton onClick={handleViewDeletedUsers} />
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
           <CategoriesButton onClick={handleCategories} />
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />

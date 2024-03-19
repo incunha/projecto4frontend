@@ -3,7 +3,7 @@ import Column from './column/column.jsx';
 import { useUserStore } from '../../userStore.js';
 import UserCard from './userCard/userCard.jsx';
 
-function Users() {
+function DeletedUsers() {
   const userColumns = ['Developer', 'Scrum Master', 'Product Owner'];
   const roleMapping = {
     'Developer': 'developer',
@@ -11,16 +11,11 @@ function Users() {
     'Product Owner': 'Owner'
   };
 
-  const {users, fetchUsers, selectUser: selectUserInStore} = useUserStore();
+  const {users, fetchUsers} = useUserStore();
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
-
-  const selectUser = (user) => {
-    const token = sessionStorage.getItem('token');
-    selectUserInStore(user.username, token);
-  }
 
   return (
     <div className="columns">
@@ -28,13 +23,12 @@ function Users() {
         <Column
           key={title}
           title={title}
-          items={users.filter(user => user.role === roleMapping[title] && user.active)}
+          items={users.filter(user => user.role === roleMapping[title] && !user.active)}
           CardComponent={UserCard}
-          onCardClick={selectUser}
         />
       ))}
     </div>
   );
 }
 
-export default Users;
+export default DeletedUsers;
