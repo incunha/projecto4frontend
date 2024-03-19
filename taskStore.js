@@ -48,7 +48,33 @@ const useTasksStore = create((set) => ({
     } catch (error) {
       console.error(error);
     }
+  },
+
+  deleteTask: async (taskId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/delete/${taskId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+      });
+      
+      if (!response.ok) {
+        console.error(`Error deleting task: ${response.statusText}`);
+        return;
+      }
+
+      
+      await useTasksStore.getState().fetchTasks();
+    } catch (error) {
+      console.error(error);
+    }
   }
 }));
+
+
+
 
 export default useTasksStore;

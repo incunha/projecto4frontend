@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import './taskCard.css';
 import TaskModal from '../../modals/modal-task/modalTask';
+import useTasksStore from '../../../taskStore';
 
 function TaskCard({ task }) {
   
   const { title, user, priority } = task;
   const [userImage, setUserImage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const deleteTask = useTasksStore((state) => state.deleteTask);
+
+  const handleDelete = async () => {
+    await deleteTask(task.id);
+  };
 
 
   const handleDoubleClick = () => {
@@ -80,6 +86,7 @@ function TaskCard({ task }) {
       </div>
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
+      <button onClick={handleDelete}>X</button>
     </div>
   );
 }
