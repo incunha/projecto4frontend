@@ -5,13 +5,14 @@ import useTasksStore from '../../../taskStore';
 function CategorySelect() {
   const { categories, fetchCategories } = useCategoryStore();
   const { fetchTasksByCategory } = useTasksStore();
+  const fetchTasks = useTasksStore(state => state.fetchTasks);
 
   useEffect(() => {
     fetchCategories();
   }, [fetchCategories]);
 
   const handleCategoryChange = (event) => {
-    fetchTasksByCategory(event.target.value);
+    event.target.value === "" ? fetchTasks() : fetchTasksByCategory(event.target.value);
   };
 
   return (

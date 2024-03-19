@@ -14,6 +14,7 @@ function AddTaskModal({ isOpen, onRequestClose }) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [warning, setWarning] = useState('');
+  
 
   useEffect(() => {
     if (isOpen) {
@@ -22,10 +23,12 @@ function AddTaskModal({ isOpen, onRequestClose }) {
   }, [isOpen, fetchCategories]);
 
   const handleCreate = async () => {
-    if (!title || !description || !priority || !category || !startDate || !endDate) {
+    if (!title || !description || !priority || !category || !startDate) {
       setWarning('Please fill in all fields');
       return;
     }
+
+    const finalEndDate = endDate || '2199-12-31';
 
     try {
       const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/add', {
@@ -35,7 +38,7 @@ function AddTaskModal({ isOpen, onRequestClose }) {
           'Accept': '*/*',
           'token': sessionStorage.getItem('token'),
         },
-        body: JSON.stringify({ title, description, priority, startDate, endDate, category }),
+        body: JSON.stringify({ title, description, priority, startDate, endDate: finalEndDate, category }),
       });
 
       if (!response.ok) {
@@ -68,13 +71,13 @@ function AddTaskModal({ isOpen, onRequestClose }) {
           ))}
         </select>
         <label>
-  Start Date
-  <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-</label>
-<label>
-  End Date
-  <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-</label>
+          Start Date
+          <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+        </label>
+        <label>
+          End Date
+          <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+        </label>
         {warning && <p className="warning">{warning}</p>}
         <button onClick={handleCreate}>Create</button>
         <button onClick={onRequestClose}>Cancel</button>

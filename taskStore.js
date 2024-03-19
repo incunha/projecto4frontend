@@ -119,6 +119,31 @@ const useTasksStore = create((set) => ({
     }
   },
 
+  updateTask: async (task) => {
+    try {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+          'token': sessionStorage.getItem('token'),
+        },
+        body: JSON.stringify(task),
+      });
+
+      if (!response.ok) {
+        console.error(`Error updating task: ${response.statusText}`);
+        return;
+      }
+
+      await useTasksStore.getState().fetchTasks();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+
+
 }));
 
 
