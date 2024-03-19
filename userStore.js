@@ -33,6 +33,8 @@ export const useUserStore = create(set => ({
   closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUserForDetails: null }),
   setUsers: (users) => set({ users }),
   toggleUsersView: () => set(state => ({ isUsersView: !state.isUsersView })),
+
+
   fetchUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -44,7 +46,7 @@ export const useUserStore = create(set => ({
         },
       });
       if (!response.ok) {
-        console.error(`Error fetching users:`);
+        console.error(`Error fetching all users:`);
         return;
       }
       const data = await response.json();
@@ -53,6 +55,48 @@ export const useUserStore = create(set => ({
       console.error(error);
     }
   },
+  
+  fetchActiveUsers: async () => {
+    try {
+      const token = sessionStorage.getItem('token'); 
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/allActive', {
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+      });
+      if (!response.ok) {
+        console.error(`Error fetching active users:`);
+        return;
+      }
+      const data = await response.json();
+      set({ users: data });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  fetchInactiveUsers: async () => {
+    try {
+      const token = sessionStorage.getItem('token'); 
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/allInactive', {
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+      });
+      if (!response.ok) {
+        console.error(`Error fetching inactive users:`);
+        return;
+      }
+      const data = await response.json();
+      set({ users: data });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  
   registerUser: async (name, username, email, contactNumber, userPhoto, password) => {
     try {
       const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {

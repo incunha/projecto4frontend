@@ -5,7 +5,7 @@ import TaskCard from '../elements/taskCard/taskCard';
 
 function DeletedTasks() {
   const taskColumns = ['To Do', 'Doing', 'Done'];
-  const { tasks, fetchTasks } = useTasksStore();
+  const { inactiveTasks, fetchInactiveTasks } = useTasksStore();
 
   const statusValues = {
     'To Do': 10,
@@ -14,8 +14,8 @@ function DeletedTasks() {
   };
 
   useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
+    fetchInactiveTasks();
+  }, [fetchInactiveTasks]);
 
   return (
     <div className="columns">
@@ -23,7 +23,7 @@ function DeletedTasks() {
         <Column
           key={title}
           title={title}
-          items={tasks.filter(task => task.status === statusValues[title] && !task.active)}
+          items={inactiveTasks.filter(task => task.status === statusValues[title])}
           CardComponent={TaskCard}
         />
       ))}

@@ -11,11 +11,11 @@ function DeletedUsers() {
     'Product Owner': 'Owner'
   };
 
-  const {users, fetchUsers} = useUserStore();
+  const {users, fetchInactiveUsers} = useUserStore();
 
   useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+    fetchInactiveUsers();
+  }, [fetchInactiveUsers]);
 
   return (
     <div className="columns">

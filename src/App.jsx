@@ -23,17 +23,18 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const {fetchUsers, users } = useUserStore();
+  const {fetchActiveUsers, fetchInactiveUsers, users } = useUserStore();
   const [setIsModalOpen] = useState(false);
   const [setSelectedUser] = useState(null);
   const { isUserDetailsModalOpen, selectedUserForDetails, closeUserDetailsModal } = useUserStore();
   const [ setIsUsersRouteVisible] = useState(false);
-  const { tasks, fetchTasks } = useTasksStore();
+  const { fetchActiveTasks, activeTasks} = useTasksStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUsers();
-    fetchTasks();
+    fetchActiveUsers();
+    fetchInactiveUsers();
+    fetchActiveTasks()
   }, []);
   
 
@@ -72,11 +73,11 @@ function App() {
           <MenuAside onToggleUsersRoute={() => setIsUsersRouteVisible(prev => !prev)} />
           </aside>
           <Routes>
-          <Route path="/tasks" element={<Tasks tasks={tasks} />} />
+          <Route path="/tasks" element={<Tasks tasks={activeTasks} />} />
           <Route path="/users" element={<Users users={users} />} />
           <Route path="/deletedUsers" element={<DeletedUsers />} />
           <Route path="/deletedTasks" element={ <DeletedTasks />} />
-          <Route path="/" element={<Tasks tasks={tasks} />} />
+          <Route path="/" element={<Tasks tasks={activeTasks} />} />
           </Routes>
           <Footer />
         </>

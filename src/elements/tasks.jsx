@@ -5,7 +5,7 @@ import TaskCard from './taskCard/taskCard.jsx';
 
 function Tasks() {
   const taskColumns = ['To Do', 'Doing', 'Done'];
-  const { tasks, fetchTasks } = useTasksStore();
+  const { activeTasks, fetchActiveTasks } = useTasksStore();
 
   const statusValues = {
     'To Do': 10,
@@ -14,8 +14,8 @@ function Tasks() {
   };
 
   useEffect(() => {
-    fetchTasks();
-  }, [fetchTasks]);
+    fetchActiveTasks();
+  }, [fetchActiveTasks]);
 
 
   return (
@@ -24,7 +24,7 @@ function Tasks() {
        <Column
        key={title}
        title={title}
-       items={tasks.filter(task => task.status === statusValues[title] && task.active)}
+       items={activeTasks.filter(task => task.status === statusValues[title])}
        CardComponent={TaskCard}
      />
       ))}

@@ -1,43 +1,76 @@
-import {create} from 'zustand';
+import { create } from "zustand";
 
 const useTasksStore = create((set) => ({
-  tasks: [],
-  fetchTasks: async () => {
+  activeTasks: [],
+  inactiveTasks: [],
+
+  fetchActiveTasks: async () => {
     try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/all', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-      });
-      
+      const response = await fetch(
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/allActive",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
       if (!response.ok) {
-        console.error(`Error fetching tasks: ${response.statusText}`);
+        console.error(`Error fetching active tasks: ${response.statusText}`);
         return;
       }
 
-      const tasks = await response.json();
-      set({ tasks });
+      const activeTasks = await response.json();
+      set({ activeTasks });
     } catch (error) {
       console.error(error);
     }
   },
 
+  fetchInactiveTasks: async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/allInactive",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
+      if (!response.ok) {
+        console.error(`Error fetching inactive tasks: ${response.statusText}`);
+        return;
+      }
+
+      const inactiveTasks = await response.json();
+      set({ inactiveTasks });
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
   updateStatus: async (taskId, status) => {
     try {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/changeStatus/${taskId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-        body: JSON.stringify({ status }),
-      });
-      
+      const response = await fetch(
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/changeStatus/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify({ status }),
+        }
+      );
+
       if (!response.ok) {
         console.error(`Error updating task status: ${response.statusText}`);
         return;
@@ -52,21 +85,23 @@ const useTasksStore = create((set) => ({
 
   deleteTask: async (taskId) => {
     try {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/block/${taskId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-      });
-      
+      const response = await fetch(
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/block/${taskId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
       if (!response.ok) {
         console.error(`Error deleting task: ${response.statusText}`);
         return;
       }
 
-      
       await useTasksStore.getState().fetchTasks();
     } catch (error) {
       console.error(error);
@@ -75,22 +110,27 @@ const useTasksStore = create((set) => ({
 
   fetchTasksByCategory: async (categoryName) => {
     try {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byCategory/${categoryName}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-      });
-      
+      const response = await fetch(
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byCategory/${categoryName}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
       if (!response.ok) {
-        console.error(`Error fetching tasks by category: ${response.statusText}`);
+        console.error(
+          `Error fetching tasks by category: ${response.statusText}`
+        );
         return;
       }
-  
+
       const tasks = await response.json();
-      set({ tasks });
+      set({ activeTasks: tasks });
     } catch (error) {
       console.error(error);
     }
@@ -98,22 +138,25 @@ const useTasksStore = create((set) => ({
 
   fetchTasksByUser: async (username) => {
     try {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byUser/${username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-      });
-      
+      const response = await fetch(
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byUser/${username}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+        }
+      );
+
       if (!response.ok) {
         console.error(`Error fetching tasks by user: ${response.statusText}`);
         return;
       }
-  
+
       const tasks = await response.json();
-      set({ tasks });
+      set({ activeTasks: tasks });
     } catch (error) {
       console.error(error);
     }
@@ -121,15 +164,18 @@ const useTasksStore = create((set) => ({
 
   updateTask: async (task) => {
     try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/update', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': '*/*',
-          'token': sessionStorage.getItem('token'),
-        },
-        body: JSON.stringify(task),
-      });
+      const response = await fetch(
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/update",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "*/*",
+            token: sessionStorage.getItem("token"),
+          },
+          body: JSON.stringify(task),
+        }
+      );
 
       if (!response.ok) {
         console.error(`Error updating task: ${response.statusText}`);
@@ -141,12 +187,6 @@ const useTasksStore = create((set) => ({
       console.error(error);
     }
   },
-
-
-
 }));
-
-
-
 
 export default useTasksStore;

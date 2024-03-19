@@ -5,14 +5,14 @@ import useTasksStore from '../../../taskStore';
 function UserSelect() {
   const { users, fetchUsers } = useUserStore();
   const { fetchTasksByUser } = useTasksStore();
-  const fetchTasks = useTasksStore(state => state.fetchTasks);
+  const fetchActiveTasks = useTasksStore(state => state.fetchActiveTasks);
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
   const handleUserChange = (event) => {
-    event.target.value ==="" ? fetchTasks() : fetchTasksByUser(event.target.value);
+    event.target.value ==="" ? fetchActiveTasks() : fetchTasksByUser(event.target.value);
   };
 
 
@@ -21,7 +21,7 @@ function UserSelect() {
       <option value="">All Users</option>
       {users.map(user => (
         <option key={user.username} value={user.username}>
-          {user.username}
+          {user.name}
         </option>
       ))}
     </select>
