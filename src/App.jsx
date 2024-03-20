@@ -16,6 +16,7 @@ import DeletedTasks from './elements/deletedTasks';
 import DeletedUsers from './elements/deletedUsers';
 import useTasksStore from '../taskStore.js';
 import { useNavigate } from 'react-router-dom';
+import UserTasks from './elements/userTasks.jsx';
 
 Modal.setAppElement('#root');
 
@@ -77,6 +78,7 @@ function App() {
           <Route path="/users" element={<Users users={users} />} />
           <Route path="/deletedUsers" element={<DeletedUsers />} />
           <Route path="/deletedTasks" element={ <DeletedTasks />} />
+          <Route path="/userTasks" element={<UserTasks />} />
           <Route path="/" element={<Tasks tasks={activeTasks} />} />
           </Routes>
           <Footer />

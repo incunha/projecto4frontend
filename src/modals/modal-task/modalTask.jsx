@@ -8,7 +8,22 @@ function TaskModal({ task, isOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ ...task });
   const {categories, fetchCategories} = useCategoryStore();
-  const userRole = useUserStore(state => state.userRole);
+  const selectedUser = useUserStore(state => state.selectedUser);
+
+  const [taskCreator, setTaskCreator] = useState(null);
+
+  useEffect(() => {
+    const fetchTaskCreator = async () => {
+      const taskCreator = await useTasksStore.getState().fetchTaskCreator(task.id);
+        setTaskCreator(taskCreator);
+};
+
+
+  
+    if (isOpen) {
+      fetchTaskCreator();
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     fetchCategories();
@@ -52,8 +67,8 @@ function TaskModal({ task, isOpen, onClose }) {
               <select name="category" value={editedTask.category} onChange={handleChange}>
             {categories.map((category) => (
              <option key={category.name} value={category.name}>{category.name}</option>
-  ))}
-</select>
+         ))}
+              </select>
               <label>Start Date</label>
               <input type="date" name="startDate" value={editedTask.startDate} onChange={handleChange} />
               <label>End Date</label>
@@ -82,7 +97,7 @@ function TaskModal({ task, isOpen, onClose }) {
               <p>End Date: {task.endDate === '2199-12-31' ? '' : task.endDate}</p>
               <p>Priority: {task.priority}</p>
               <p>Status: {task.status}</p>
-              {userRole === 'ScrumMaster' || userRole === 'Owner' ? <button onClick={handleEditClick}>Edit</button> : null}
+              {taskCreator &&( selectedUser.role === 'Owner' || selectedUser.role === 'ScrumMaster' || (selectedUser.role === 'developer' && taskCreator.username === selectedUser.username)) ? <button onClick={handleEditClick}>Edit</button> : null}
               <button onClick={onClose}>Close</button>
             </>
           )}

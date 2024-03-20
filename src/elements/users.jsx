@@ -15,7 +15,7 @@ function Users() {
 
   useEffect(() => {
     fetchActiveUsers();
-  }, [fetchActiveUsers]);
+  }, []);
 
   const selectUser = (user) => {
     const token = sessionStorage.getItem('token');

@@ -8,9 +8,10 @@ export const useUserStore = create(set => ({
   isUserDetailsModalOpen: false,
   selectedUserForDetails: null,
   isUsersVisible: false,
+  userUsername: null,
   setIsUsersVisible: () => set(state => ({ isUsersVisible: !state.isUsersVisible })),
+  
 
-  setUserRole: (role) => set({ userRole: role }),
   
   selectUser: async (username) => {
     try {
@@ -97,6 +98,28 @@ export const useUserStore = create(set => ({
       set({ users: data });
     } catch (error) {
       console.error(error);
+    }
+  },
+
+  fetchUser: async () => {
+    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/myUserDto', {
+      method: 'GET',
+      headers: {
+        Accept: "*/*",
+        "Content-Type": "application/json",
+        token: sessionStorage.getItem("token"),
+      },
+    });
+
+    if (response.status === 403) {
+      alert('Unauthorized');
+      sessionStorage.clear();
+      window.location.href = 'index.html';
+    } else if (response.status === 200) {
+      const user = await response.json();
+      set({ selectedUser: user }); // supondo que você queira armazenar o usuário retornado em um estado chamado selectedUser
+    } else {
+      console.error('Failed to fetch user data');
     }
   },
   

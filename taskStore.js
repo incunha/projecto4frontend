@@ -108,6 +108,27 @@ const useTasksStore = create((set) => ({
     }
   },
 
+  fetchTaskCreator: async (taskId) => {
+    try {
+      const token = sessionStorage.getItem('token'); 
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/creator/${taskId}`, {
+        headers: {
+          'Accept': '*/*',
+          'Content-Type': 'application/json',
+          'token': token,
+        },
+      });
+      if (!response.ok) {
+        console.error(`Error fetching task creator: ${response.statusText}`);
+        return;
+      }
+      const data = await response.json();
+      return data; 
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   fetchTasksByCategory: async (categoryName) => {
     try {
       const response = await fetch(

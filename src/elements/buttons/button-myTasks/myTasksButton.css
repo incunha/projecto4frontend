@@ -1,6 +1,5 @@
-
-.viewTasksButton {
-  background-color: transparent;
+.myTasks-button {
+    background-color: transparent;
     color: white;
     text-align: center;
     text-decoration: none;
@@ -16,7 +15,7 @@
 
 }
 
-.viewTasksButton:hover {
+.myTasks-button:hover {
     font-size: 18px;
     color: var(--green1);
 }

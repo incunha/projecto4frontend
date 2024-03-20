@@ -45,7 +45,7 @@ function AddTaskModal({ isOpen, onRequestClose }) {
         console.error(`Error creating task: ${response.statusText}`);
         return;
       }
-      fetchTasks();
+      fetchActiveTasks();
       onRequestClose();
     } catch (error) {
       console.error(error);

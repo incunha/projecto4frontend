@@ -1,4 +1,10 @@
-.add-task-button {
+
+.editeProfile-button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
   background-color: transparent;
   color: white;
   text-align: center;
@@ -14,7 +20,7 @@
   font-weight: bold;
 }
 
-.add-task-button:hover {
+.editeProfile-button:hover {
   font-size: 18px;
-  color: var(--green2);
+  color: var(--green1);
 }
