@@ -6,7 +6,7 @@ import { useUserStore } from '../../../userStore';
 import  useTasksStore  from '../../../taskStore'; 
 
 function Column({ title, items, CardComponent, onCardClick }) {
-  const {updateStatus, fetchTasks} = useTasksStore();
+  const {updateStatus, fetchActiveTasks} = useTasksStore();
 
   const statusMapping = {
     "To Do": 10,
@@ -23,7 +23,7 @@ function Column({ title, items, CardComponent, onCardClick }) {
              const taskId= event.dataTransfer.getData('text/plain');
              const status = statusMapping[title];
              await updateStatus(taskId, status);
-             fetchTasks();
+             fetchActiveTasks();
            }}
       >
       {items.map(item => {

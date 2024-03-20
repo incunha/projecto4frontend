@@ -2,12 +2,15 @@ import { create } from 'zustand';
 
 export const useUserStore = create(set => ({
   users: [],
+  userRole: null,
   isUsersView: true,
   selectedUser: null,
   isUserDetailsModalOpen: false,
   selectedUserForDetails: null,
   isUsersVisible: false,
   setIsUsersVisible: () => set(state => ({ isUsersVisible: !state.isUsersVisible })),
+
+  setUserRole: (role) => set({ userRole: role }),
   
   selectUser: async (username) => {
     try {

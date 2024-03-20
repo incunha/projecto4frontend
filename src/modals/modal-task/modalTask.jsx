@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './modalTask.css';
 import useTasksStore from '../../../taskStore';
 import useCategoryStore from '../../../categoryStore';
+import { useUserStore } from '../../../userStore';
 
 function TaskModal({ task, isOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ ...task });
   const {categories, fetchCategories} = useCategoryStore();
+  const userRole = useUserStore(state => state.userRole);
 
   useEffect(() => {
     fetchCategories();
@@ -80,7 +82,7 @@ function TaskModal({ task, isOpen, onClose }) {
               <p>End Date: {task.endDate === '2199-12-31' ? '' : task.endDate}</p>
               <p>Priority: {task.priority}</p>
               <p>Status: {task.status}</p>
-              <button onClick={handleEditClick}>Edit</button>
+              {userRole === 'ScrumMaster' || userRole === 'Owner' ? <button onClick={handleEditClick}>Edit</button> : null}
               <button onClick={onClose}>Close</button>
             </>
           )}

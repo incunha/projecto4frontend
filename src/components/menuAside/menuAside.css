@@ -1,5 +1,5 @@
 .aside-menu {
-  background-color: var(--green2);
+  background-color: var(--green3);
   width: 4%;
   height: 100vh;
   transition: width 0.5s ease;
@@ -15,3 +15,4 @@
   border: none;
   cursor: pointer;
 }
+
