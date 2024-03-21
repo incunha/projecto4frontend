@@ -4,16 +4,22 @@ export const useUserStore = create(set => ({
   users: [],
   userRole: null,
   isUsersView: true,
+  loggedUser: null,
   selectedUser: null,
   isUserDetailsModalOpen: false,
   selectedUserForDetails: null,
   isUsersVisible: false,
   userUsername: null,
+
   setIsUsersVisible: () => set(state => ({ isUsersVisible: !state.isUsersVisible })),
-  
+  setSelectedUser: (user) => set({ selectedUser: user }),
+  setUserUsername: (username) => set({ userUsername: username }),
+  setUserRole: (role) => set({ userRole: role }),
+  setUsersView: (isUsersView) => set({ isUsersView }),
+  setUsersVisible: (isUsersVisible) => set({ isUsersVisible }),
 
   
-  selectUser: async (username) => {
+  selectedUserInList: async (username) => {
     try {
       const token = sessionStorage.getItem('token'); 
       const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/${username}`, {
@@ -28,17 +34,29 @@ export const useUserStore = create(set => ({
         return;
       }
       const data = await response.json();
+      console.log('Selected user:', data);
       set({ selectedUser: data });
     } catch (error) {
       console.error(error);
     }
   },
-  openUserDetailsModal: () => set(state => ({ isUserDetailsModalOpen: true, selectedUserForDetails: state.selectedUser })),
-  closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUserForDetails: null }),
+
+  setSelectedUser: async (username) => {
+    try {
+      const user = await selectUserInList(username);
+      set({ selectedUser: user });
+      openUserDetailsModal();
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  
+  openUserDetailsModal: () => set(state => ({ isUserDetailsModalOpen: true, selectedUser: state.selectedUser })),
+  closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUser: null }),
   setUsers: (users) => set({ users }),
   toggleUsersView: () => set(state => ({ isUsersView: !state.isUsersView })),
 
-
+ 
   fetchUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -80,6 +98,7 @@ export const useUserStore = create(set => ({
       console.error(error);
     }
   },
+
   fetchInactiveUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -117,7 +136,7 @@ export const useUserStore = create(set => ({
       window.location.href = 'index.html';
     } else if (response.status === 200) {
       const user = await response.json();
-      set({ selectedUser: user }); // supondo que você queira armazenar o usuário retornado em um estado chamado selectedUser
+      set({ loggedUser: user }); 
     } else {
       console.error('Failed to fetch user data');
     }

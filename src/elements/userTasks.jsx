@@ -6,7 +6,7 @@ import TaskCard from './taskCard/taskCard.jsx';
 
 function UserTasks() {
   const taskColumns = ['To Do', 'Doing', 'Done'];
-  const { activeTasks, selectedUserTasks, fetchTasksByUser } = useTasksStore();
+  const { activeTasks, loggedUserTasks, fetchTasksByUser } = useTasksStore();
   const userUsername = useUserStore(state => state.userUsername);
 
   const statusValues = {
@@ -15,7 +15,7 @@ function UserTasks() {
     'Done': 30,
   };
 
-  const tasksToDisplay = (selectedUserTasks && selectedUserTasks.length > 0) ? selectedUserTasks : activeTasks;
+  const tasksToDisplay = (loggedUserTasks && loggedUserTasks.length > 0) ? loggedUserTasks : activeTasks;
 
   const handleButtonClick = () => {
     if (userUsername) {

@@ -8,7 +8,7 @@ function TaskModal({ task, isOpen, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTask, setEditedTask] = useState({ ...task });
   const {categories, fetchCategories} = useCategoryStore();
-  const selectedUser = useUserStore(state => state.selectedUser);
+  const loggedUser = useUserStore(state => state.loggedUser);
 
   const [taskCreator, setTaskCreator] = useState(null);
 
@@ -51,6 +51,32 @@ function TaskModal({ task, isOpen, onClose }) {
     const { name, value } = event.target;
     setEditedTask({ ...editedTask, [name]: value });
   };
+
+  function mapPriority(priority) {
+    switch(priority) {
+      case 100:
+        return 'Low';
+      case 200:
+        return 'Medium';
+      case 300:
+        return 'High';
+      default:
+        return '';
+    }
+  }
+  
+  function mapStatus(status) {
+    switch(status) {
+      case 10:
+        return 'To Do';
+      case 20:
+        return 'Doing';
+      case 30:
+        return 'Done';
+      default:
+        return '';
+    }
+  }
 
   return (
     isOpen && (
@@ -95,9 +121,9 @@ function TaskModal({ task, isOpen, onClose }) {
               <p>Category: {task.category}</p>
               <p>Start Date: {task.startDate}</p>
               <p>End Date: {task.endDate === '2199-12-31' ? '' : task.endDate}</p>
-              <p>Priority: {task.priority}</p>
-              <p>Status: {task.status}</p>
-              {taskCreator &&( selectedUser.role === 'Owner' || selectedUser.role === 'ScrumMaster' || (selectedUser.role === 'developer' && taskCreator.username === selectedUser.username)) ? <button onClick={handleEditClick}>Edit</button> : null}
+              <p>Priority: {mapPriority(task.priority)}</p>
+              <p>Status: {mapStatus(task.status)}</p>
+              {taskCreator &&( loggedUser.role === 'Owner' || loggedUser.role === 'ScrumMaster' || (loggedUser.role === 'developer' && taskCreator.username === loggedUser.username)) ? <button onClick={handleEditClick}>Edit</button> : null}
               <button onClick={onClose}>Close</button>
             </>
           )}

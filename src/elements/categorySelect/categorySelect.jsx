@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import useCategoryStore from '../../../categoryStore';
 import useTasksStore from '../../../taskStore';
+import './categorySelect.css';
 
 function CategorySelect() {
   const { categories, fetchCategories } = useCategoryStore();
@@ -17,7 +18,7 @@ function CategorySelect() {
   };
 
   return (
-    <select onChange={handleCategoryChange}>
+    <select className='mySelect' onChange={handleCategoryChange}>
       <option value="">All Categories</option>
       {categories.map(category => (
         <option key={category.name} value={category.name}>

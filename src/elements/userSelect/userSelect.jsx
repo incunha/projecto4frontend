@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import {useUserStore} from '../../../userStore';
 import useTasksStore from '../../../taskStore';
+import '../categorySelect/categorySelect.css';
 
 function UserSelect() {
   const { users, fetchUsers } = useUserStore();
@@ -17,7 +18,7 @@ function UserSelect() {
 
 
   return (
-    <select onChange={handleUserChange}>
+    <select className = 'mySelect' onChange={handleUserChange}>
       <option value="">All Users</option>
       {users.map(user => (
         <option key={user.username} value={user.username}>

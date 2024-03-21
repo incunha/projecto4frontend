@@ -6,12 +6,12 @@ import './myTasksButton.css';
 
 function MyTasksButton() {
     const fetchTasksByUser = useTasksStore(state => state.fetchTasksByUser);
-    const { selectedUser } = useUserStore();
+    const { loggedUser } = useUserStore();
     const navigate = useNavigate();
   
     const handleMyTasks = () => {
-      if (selectedUser) {
-        fetchTasksByUser(selectedUser.username);
+      if (loggedUser) {
+        fetchTasksByUser(loggedUser.username);
         navigate('/userTasks');
       }
     };

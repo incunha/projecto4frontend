@@ -4,7 +4,7 @@ import UserModal from '../../modals/modal-user/userModal';
 import { useUserStore } from '../../../userStore';
 
 function UserName({ updateUserInfo }) {
-  const { fetchUser, selectedUser, UserName } = useUserStore();
+  const { fetchUser, loggedUser, UserName } = useUserStore();
   const [firstName, setFirstName] = useState('');
   const [userImage, setUserImage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,16 +14,16 @@ function UserName({ updateUserInfo }) {
   }, [fetchUser]);
 
   useEffect(() => {
-    if (selectedUser) {
-      const names = selectedUser.name.split(' ');
+    if (loggedUser) {
+      const names = loggedUser.name.split(' ');
       setFirstName(names[0]);
-      setUserImage(selectedUser.userPhoto);
+      setUserImage(loggedUser.userPhoto);
 
       if (typeof updateUserInfo === 'function') {
-        updateUserInfo(selectedUser.name, selectedUser.userPhoto);
+        updateUserInfo(loggedUser.name, loggedUser.userPhoto);
       }
     }
-  }, [selectedUser, updateUserInfo]);
+  }, [loggedUser, updateUserInfo]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);

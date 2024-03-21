@@ -8,7 +8,7 @@ function TaskCard({ task, active }) {
   const { title, priority } = task;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const deleteTask = useTasksStore((state) => state.deleteTask);
-  const userRole = useUserStore(state => state.userRole);
+  const loggedUser = useUserStore((state) => state.loggedUser);
 
   const handleDelete = async () => {
     await deleteTask(task.id);
@@ -89,8 +89,8 @@ function TaskCard({ task, active }) {
     }} onDoubleClick={handleDoubleClick}>
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
-      {(userRole === 'ScrumMaster' || userRole === 'Owner') && active && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}
-      {userRole === 'Owner' && !active && <button className="restoreTaskButton" onClick={handleRestore}>
+      {(loggedUser?.role && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner')) && active && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}
+      {loggedUser?.role && loggedUser.role === 'Owner' && !active && <button className="restoreTaskButton" onClick={handleRestore}>
       <img src="multimedia/restore.png" alt="Restore Icon" /> </button>}
     </div>
   );

@@ -1,0 +1,19 @@
+
+.mySelect {
+    color: #444;
+    width: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px auto;
+    display: block;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+
+

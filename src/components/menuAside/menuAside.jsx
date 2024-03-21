@@ -29,7 +29,7 @@ function MenuAside() {
   const [viewDeletedTasks, setViewDeletedTasks] = useState(false);
   const [viewDeletedUsers, setViewDeletedUsers] = useState(false);
   const location = useLocation();
-  const selectedUser = useUserStore(state => state.selectedUser);
+  const loggedUser = useUserStore(state => state.loggedUser);
 
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
@@ -79,17 +79,17 @@ function MenuAside() {
         <div>
           <EditProfileButton />
           <ViewTasksButton /> 
+          {loggedUser.role ==='ScrumMaster' || loggedUser.role === 'Owner' ? <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/> : null}
           <AddTaskButton onClick={handleAddTask} />
           <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
           <MyTasksButton />
-          {location.pathname === '/tasks' && (selectedUser.role === 'ScrumMaster' || selectedUser.role === 'Owner') && <CategorySelect />}
-          {location.pathname === '/tasks' && (selectedUser.role === 'ScrumMaster' || selectedUser.role === 'Owner') && <UserSelect />}
-          {selectedUser.role ==='ScrumMaster' || selectedUser.role === 'Owner' ? <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/> : null}
-          {selectedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
-          {selectedUser.role === 'ScrumMaster' || selectedUser.role === 'Owner' ? <ViewUsersButton onClick={handleViewUsers} /> : null}
-          {selectedUser.role === 'Owner' ? <ViewDeletedUsersButton onClick={handleViewDeletedUsers} /> : null}
+          {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <CategorySelect />}
+          {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <UserSelect />}
+          {loggedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
+          {loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner' ? <ViewUsersButton onClick={handleViewUsers} /> : null}
+          {loggedUser.role === 'Owner' ? <ViewDeletedUsersButton onClick={handleViewDeletedUsers} /> : null}
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
-          {selectedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
+          {loggedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
           {isUsersVisible && <Users />}
           {viewDeletedTasks && <DeletedTasks />}

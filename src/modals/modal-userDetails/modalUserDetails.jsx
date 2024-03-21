@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useUserStore } from '../../../userStore';
 import './modalUserDetails.css';
 
-
 function UserDetailsModal({ isOpen, onClose }) {
-  const { selectedUserForDetails: user } = useUserStore();
+  const user = useUserStore(state => state.selectedUser);
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -15,6 +14,7 @@ function UserDetailsModal({ isOpen, onClose }) {
 
   useEffect(() => {
     if (user) {
+      console.log(user);
       const names = user.name.split(' ');
       setFirstName(names[0]);
       setLastName(names[1]);

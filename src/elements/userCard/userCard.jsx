@@ -6,15 +6,12 @@ function UserCard({ user, active }) {
   if (!user) {
     return null;
   }
-  const { selectUser, openUserDetailsModal } = useUserStore();
 
-  const handleClick = () => {
-    const token = sessionStorage.getItem('token'); 
-    selectUser(user.username, token);
-  };
-
+  const selectedUserInList = useUserStore(state => state.selectedUserInList);
+  const openUserDetailsModal = useUserStore(state => state.openUserDetailsModal);
+  
   const handleDoubleClick = async () => {
-    await selectUser(user.username);
+    await selectedUserInList(user.username);
     openUserDetailsModal();
   };
 
@@ -23,7 +20,7 @@ function UserCard({ user, active }) {
   };
 
   return (
-    <div className="user-card" style={cardStyle} onClick={handleClick} onDoubleClick={handleDoubleClick}>
+    <div className="user-card" style={cardStyle} onDoubleClick={handleDoubleClick}>
       <img src={user.userPhoto} alt={user.name} className="user-photo" />
       <span className="user-name">{user.name}</span>
     </div>

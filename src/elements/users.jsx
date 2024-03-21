@@ -11,7 +11,7 @@ function Users() {
     'Product Owner': 'Owner'
   };
 
-  const {users, fetchActiveUsers, selectUser: selectUserInStore} = useUserStore();
+  const {users, fetchActiveUsers, selectUser: selectUserInList} = useUserStore();
 
   useEffect(() => {
     fetchActiveUsers();
@@ -19,7 +19,7 @@ function Users() {
 
   const selectUser = (user) => {
     const token = sessionStorage.getItem('token');
-    selectUserInStore(user.username, token);
+    selectUserInList(user.username, token);
   }
 
   return (
@@ -28,7 +28,7 @@ function Users() {
         <Column
           key={title}
           title={title}
-          items={ActiveUsers.filter(user => user.role === roleMapping[title])}
+          items={users ? users.filter(user => user.role === roleMapping[title]) : []}
           CardComponent={UserCard}
           onCardClick={selectUser}
         />
