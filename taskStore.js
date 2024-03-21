@@ -7,7 +7,7 @@ const useTasksStore = create((set) => ({
   fetchActiveTasks: async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/allActive",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/active",
         {
           method: "GET",
           headers: {
@@ -33,7 +33,7 @@ const useTasksStore = create((set) => ({
   fetchInactiveTasks: async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/allInactive",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/inactive",
         {
           method: "GET",
           headers: {
@@ -59,7 +59,7 @@ const useTasksStore = create((set) => ({
   updateStatus: async (taskId, status) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/changeStatus/${taskId}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/changeStatus/${taskId}`,
         {
           method: "PATCH",
           headers: {
@@ -86,7 +86,7 @@ const useTasksStore = create((set) => ({
   deleteTask: async (taskId) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/block/${taskId}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/block/${taskId}`,
         {
           method: "PATCH",
           headers: {
@@ -111,7 +111,7 @@ const useTasksStore = create((set) => ({
   fetchTaskCreator: async (taskId) => {
     try {
       const token = sessionStorage.getItem('token'); 
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/creator/${taskId}`, {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/creator/${taskId}`, {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ const useTasksStore = create((set) => ({
   fetchTasksByCategory: async (categoryName) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byCategory/${categoryName}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/byCategory/${categoryName}`,
         {
           method: "GET",
           headers: {
@@ -160,7 +160,7 @@ const useTasksStore = create((set) => ({
   fetchTasksByUser: async (username) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/byUser/${username}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/byUser/${username}`,
         {
           method: "GET",
           headers: {
@@ -186,7 +186,7 @@ const useTasksStore = create((set) => ({
   updateTask: async (task) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/update",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/update",
         {
           method: "PUT",
           headers: {

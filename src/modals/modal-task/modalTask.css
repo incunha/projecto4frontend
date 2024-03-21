@@ -24,9 +24,48 @@
 
   .modal input[type="text"],
   .modal input[type="date"] {
-  width: 100%;
+  width: 90%;
   padding: 10px;
-  margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+
 }
+
+.modal input[type="date"] {
+  width: 150px;
+}
+
+.taskDetails {
+  display: flex;
+  align-items: center;
+}
+
+.taskDetailsEdit {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.taskLabel {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.taskFilters {
+  display: flex;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  width: 100px;
+  height: 30px;
+  justify-content: space-between;
+  border: 1px solid #999999;
+  border-radius: 5px;
+}
+
+.buttonContainerTaskModal {
+  display: flex;
+  justify-content: space-between;
+  width: 500px; 
+  margin-top: 40px;
+}
+

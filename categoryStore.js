@@ -3,7 +3,7 @@ import { create } from "zustand";
 const fetchCategories = async (set) => {
   try {
     const response = await fetch(
-      "http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/allCategories",
+      "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/allCategories",
       {
         method: "GET",
         headers: {
@@ -34,7 +34,7 @@ const useCategoryStore = create((set) => ({
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/deleteCategory/${categoryName}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/deleteCategory/${categoryName}`,
         {
           method: "DELETE",
           headers: {

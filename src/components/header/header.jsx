@@ -19,8 +19,8 @@ function Header({ userName, userPhoto, updateUserInfo }) {
 
     return (
         <header className="header">
-          <div>{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</div>
           <UserName userName={userName} userPhoto={userPhoto} updateUserInfo={updateUserInfo} />
+          <div className = "dateHeader">{currentDateTime.toLocaleDateString()} {currentDateTime.toLocaleTimeString()}</div>
           <LogoutButton/>
         </header>
     );

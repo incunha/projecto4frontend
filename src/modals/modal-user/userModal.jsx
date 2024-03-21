@@ -11,6 +11,7 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   const [username, setUsername] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -46,6 +47,11 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
     setIsEditing(true);
   };
 
+  const handleClose = () => {
+    setIsEditing(false);
+    onRequestClose();
+  };
+
   const handleSaveClick = async () => {
     const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
       method: 'PUT',
@@ -73,26 +79,26 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   };
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose} className="modalAddUser">
+    <Modal isOpen={isOpen} onRequestClose={handleClose} className="modalAddUser">
       <div className="modalContent">
-        <span id="closeButton" onClick={onRequestClose}>X</span>
+        <span id="closeButtonProfile" onClick={handleClose}>X</span>
         <div className="inputFields">
-          <label>First Name</label>
-          <input type="text" className="inputField" placeholder={firstName} disabled={!isEditing} onChange={e => setFirstName(e.target.value)} />
-          <label>Last Name</label>
-          <input type="text" className="inputField" placeholder={lastName} disabled={!isEditing} onChange={e => setLastName(e.target.value)} />
-          <label>Email</label>
-          <input type="email" className="inputField" placeholder={email} disabled={!isEditing} onChange={e => setEmail(e.target.value)} />
-          <label>Username</label>
-          <input type="text" className="inputField" placeholder={username} disabled={!isEditing} onChange={e => setUsername(e.target.value)} />
-          <label>Contact Number</label>
-          <input type="text" className="inputField" placeholder={contactNumber} disabled={!isEditing} onChange={e => setContactNumber(e.target.value)} />
-          <label>User Photo URL</label>
-          <input type="url" className="inputField" placeholder={userPhoto} disabled={!isEditing} onChange={e => setUserPhoto(e.target.value)} />
-          <label>Password</label>
-          <input type="password" className="inputField" placeholder="Password" disabled={!isEditing} />
-          <label>Re-write Password</label>
-          <input type="password" className="inputField" placeholder="Re-write Password" disabled={!isEditing} />
+          <label className = "labelProfile" >First Name</label>
+          <input type="text" className="inputFieldProfile" placeholder={firstName} disabled={!isEditing} onChange={e => setFirstName(e.target.value)} />
+          <label className = "labelProfile" >Last Name</label>
+          <input type="text" className="inputFieldProfile" placeholder={lastName} disabled={!isEditing} onChange={e => setLastName(e.target.value)} />
+          <label className = "labelProfile" >Email</label>
+          <input type="email" className="inputFieldProfile" placeholder={email} disabled={!isEditing} onChange={e => setEmail(e.target.value)} />
+          <label className = "labelProfile" >Username</label>
+          <input type="text" className="inputFieldProfile" placeholder={username} disabled={!isEditing} onChange={e => setUsername(e.target.value)} />
+          <label className = "labelProfile" >Contact Number</label>
+          <input type="text" className="inputFieldProfile" placeholder={contactNumber} disabled={!isEditing} onChange={e => setContactNumber(e.target.value)} />
+          <label className = "labelProfile" >User Photo URL</label>
+          <input type="url" className="inputFieldProfile" placeholder={userPhoto} disabled={!isEditing} onChange={e => setUserPhoto(e.target.value)} />
+          <label className = "labelProfile" >Password</label>
+          <input type="password" className="inputFieldProfile" placeholder="Password" disabled={!isEditing} />
+          <label className = "labelProfile" >Re-write Password</label>
+          <input type="password" className="inputFieldProfile" placeholder="Re-write Password" disabled={!isEditing} />
         </div>
         <div className="userImageContainer">
           <img id="userImage" className="userImageProfile" src={user.userPhoto} />

@@ -11,19 +11,26 @@
     background-color: rgba(0, 0, 0, 0.75) !important;
   }
 
-  .inputField {
-    font-size: 8px; 
-    width: 200%;
+  .inputFieldProfile {
+    font-size: 15px; 
+    width: 150%;
+    height: 20px;
     margin-bottom: 10px;
+    border: 1px solid var(--green3);
+    border-radius: 2px;
   }
   .inputFields {
     display: flex;
     flex-direction: column;
   }
-  
-  #userPassword {
-    font-size: 8px; 
+
+  .labelProfile {
+    font-size: 15px; 
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--green3);
   }
+  
   .userImageContainer {
     display: flex;
     align-items: center;
@@ -36,7 +43,7 @@
     margin-right: 40px;
   }
 
-  #closeButton {
+  #closeButtonProfile {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -44,7 +51,4 @@
     font-weight: bold; 
     cursor: pointer; 
   }
-  #editButton {
-    margin-top: 10px; 
-    margin-left: 20px; 
-  }
+  

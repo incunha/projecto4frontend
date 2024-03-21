@@ -56,8 +56,9 @@ function AddTaskModal({ isOpen, onRequestClose }) {
     <div className={`add-task-modal-overlay ${isOpen ? 'open' : ''}`}>
       <div className="add-task-modal">
         <h2>Add Task</h2>
-        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
+        <input className = "inputAddTaskTitle" type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} />
         <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+        <div className = "containerAddTaskSelects">
         <select value={priority} onChange={e => setPriority(e.target.value)}>
           <option value="">Select Priority</option>
           <option value="100">Low</option>
@@ -70,17 +71,22 @@ function AddTaskModal({ isOpen, onRequestClose }) {
             <option key={category.id} value={category.name}>{category.name}</option>
           ))}
         </select>
-        <label>
+        </div>
+        <div className = "containerAddTaskDates">
+        <label className='dateLabel'>
           Start Date
-          <input type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
+          <input  type="date" placeholder="Start Date" value={startDate} onChange={e => setStartDate(e.target.value)} />
         </label>
-        <label>
+        <label className='dateLabel'>
           End Date
           <input type="date" placeholder="End Date" value={endDate} onChange={e => setEndDate(e.target.value)} />
         </label>
+        </div>
         {warning && <p className="warning">{warning}</p>}
-        <button onClick={handleCreate}>Create</button>
-        <button onClick={onRequestClose}>Cancel</button>
+        <div className="button-group-addTask">
+         <button className='myButton' onClick={onRequestClose}>Cancel</button> 
+        <button className='myButton' onClick={handleCreate}>Create</button>
+        </div>
       </div>
     </div>
   ) : null;

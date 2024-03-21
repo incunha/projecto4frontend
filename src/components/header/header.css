@@ -6,6 +6,12 @@
 }
 .header div {
     color: white;
-    margin-left: 20px;
     margin-top: 20px;
 }
+
+.dateHeader {
+    right: 150px; 
+    position: absolute;
+  }
+  
+  

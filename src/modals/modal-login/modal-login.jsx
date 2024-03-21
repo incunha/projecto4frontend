@@ -104,17 +104,17 @@ function ModalLogin(props) {
                 ) : (
                 <form onSubmit={handleRegister}>
                     <h2>Register</h2>
-                    <input type="text" id="registerFirstName" className="inputField" placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
-                    <input type="text" id="registerLastName" className="inputField" placeholder="Last Name" required value={lastName} onChange={e => setLastName(e.target.value)} />
-                    <input type="email" id="registerEmail" className="inputField" placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)} />
-                    <input type="text" id="registerUsername" className="inputField" placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} />
-                    <input type="text" id="registerContact" className="inputField" placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
-                    <input type="url" id="userPhotoUrl" className="inputField" placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
-                    <input type="password" id="registerPassword" className="inputField" placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
-                    <img id="userImage" className="userImage" src={userPhoto} />
-                    <div className="buttonContainer">
-                    <button id="cancelButton" className="myButton" onClick={handleCancelClick}>Cancel</button>
-                    <button id="registerButton" className="myButton">Register</button>
+                    <input className ="inputLogin" type="text" id="registerFirstName"  placeholder="First Name" required value={firstName} onChange={e => setFirstName(e.target.value)} />
+                    <input className ="inputLogin" type="text" id="registerLastName"  placeholder="Last Name" required value={lastName} onChange={e => setLastName(e.target.value)} />
+                    <input className ="inputLogin" type="email" id="registerEmail"  placeholder="Email" required value={email} onChange={e => setEmail(e.target.value)} />
+                    <input className ="inputLogin" type="text" id="registerUsername"  placeholder="Username" required value={username} onChange={e => setUsername(e.target.value)} />
+                    <input className ="inputLogin" type="text" id="registerContact"  placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
+                    <input className ="inputLogin" type="url" id="userPhotoUrl"  placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
+                    <input className ="inputLogin" type="password" id="registerPassword"  placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
+                    <img className="userImageLogin" src={userPhoto} />
+                    <div className="buttonContainerLogin">
+                    <button className="myButton" onClick={handleCancelClick}>Cancel</button>
+                    <button className="myButton">Register</button>
                     </div>
                 </form>
                 )}

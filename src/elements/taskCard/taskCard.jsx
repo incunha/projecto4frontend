@@ -23,7 +23,7 @@ function TaskCard({ task, active }) {
   };
 
   const handleRestore = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/restore/${task.id}`, {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/restore/${task.id}`, {
       method: 'PATCH',
       headers: {
         Accept: "*/*",
@@ -32,6 +32,7 @@ function TaskCard({ task, active }) {
     });
     if (response.ok) {  
       useTasksStore.getState().fetchActiveTasks();
+      useTasksStore.getState().fetchInactiveTasks();
     } else {
       console.error('Failed to restore task');
     }
@@ -39,7 +40,7 @@ function TaskCard({ task, active }) {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/creator/${task.id}`, {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/creator/${task.id}`, {
         method: 'GET',
         headers: {
           Accept: '*/*',
@@ -89,7 +90,7 @@ function TaskCard({ task, active }) {
     }} onDoubleClick={handleDoubleClick}>
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
-      {(loggedUser?.role && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner')) && active && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}
+      {(loggedUser?.role && ((loggedUser.role === 'ScrumMaster' && active) || loggedUser.role === 'Owner')) && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}
       {loggedUser?.role && loggedUser.role === 'Owner' && !active && <button className="restoreTaskButton" onClick={handleRestore}>
       <img src="multimedia/restore.png" alt="Restore Icon" /> </button>}
     </div>
