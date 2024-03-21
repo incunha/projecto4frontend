@@ -85,12 +85,13 @@ function MenuAside() {
           <MyTasksButton />
           {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <CategorySelect />}
           {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <UserSelect />}
+          {loggedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
+          <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
           {loggedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
           {loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner' ? <ViewUsersButton onClick={handleViewUsers} /> : null}
           {loggedUser.role === 'Owner' ? <ViewDeletedUsersButton onClick={handleViewDeletedUsers} /> : null}
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
-          {loggedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
-          <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
+         
           {isUsersVisible && <Users />}
           {viewDeletedTasks && <DeletedTasks />}
         </div>

@@ -31,7 +31,7 @@ function TaskCard({ task, active }) {
       },
     });
     if (response.ok) {  
-      useTasksStore.getState().fetchTasks();
+      useTasksStore.getState().fetchActiveTasks();
     } else {
       console.error('Failed to restore task');
     }

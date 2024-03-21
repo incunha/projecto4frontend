@@ -102,7 +102,7 @@ const useTasksStore = create((set) => ({
         return;
       }
 
-      await useTasksStore.getState().fetchTasks();
+      await useTasksStore.getState().fetchActiveTasks();
     } catch (error) {
       console.error(error);
     }
@@ -203,7 +203,7 @@ const useTasksStore = create((set) => ({
         return;
       }
 
-      await useTasksStore.getState().fetchTasks();
+      await useTasksStore.getState().fetchActiveTasks();
     } catch (error) {
       console.error(error);
     }
