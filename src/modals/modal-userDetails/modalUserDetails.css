@@ -71,6 +71,7 @@
     border-radius: 50%;
     object-fit: cover;
     margin-top: 160px;
+    object-fit: cover;
   }
 
   .close {
@@ -83,4 +84,5 @@
   .button-groupUserDetails {
     display: flex;
     margin-top: 50px;
+    gap: 30px;
   }

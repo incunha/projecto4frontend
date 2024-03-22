@@ -30,6 +30,15 @@ function MenuAside() {
   const [viewDeletedUsers, setViewDeletedUsers] = useState(false);
   const location = useLocation();
   const loggedUser = useUserStore(state => state.loggedUser);
+  const [activeMenu, setActiveMenu] = useState(null);
+
+  const handleViewTasksButtons = () => {
+    setActiveMenu('tasks');
+  };
+  
+  const handleViewUsersButtons = () => {
+    setActiveMenu('users');
+  };
 
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
@@ -87,8 +96,8 @@ function MenuAside() {
           {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <UserSelect />}
           {loggedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
-          {loggedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
           {loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner' ? <ViewUsersButton onClick={handleViewUsers} /> : null}
+          {loggedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
           {loggedUser.role === 'Owner' ? <ViewDeletedUsersButton onClick={handleViewDeletedUsers} /> : null}
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
          

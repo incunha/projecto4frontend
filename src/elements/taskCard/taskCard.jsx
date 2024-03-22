@@ -14,6 +14,7 @@ function TaskCard({ task, active }) {
     await deleteTask(task.id);
   };
 
+
   const handleDoubleClick = () => {
     setIsModalOpen(true);
   };
@@ -58,10 +59,10 @@ function TaskCard({ task, active }) {
 
   const getBorderColor = () => {
     switch(priority) {
-      case 100: return 'lightgreen';
-      case 200: return 'yellow';
-      case 300: return 'red';
-      default: return 'black';
+      case 100: return active ? 'rgba(144, 238, 144, 1)' : 'rgba(144, 238, 144, 0.5)';
+      case 200: return active ? 'rgba(255, 255, 0, 1)' : 'rgba(255, 255, 0, 0.5)';
+      case 300: return active ? 'rgba(255, 0, 0, 1)' : 'rgba(255, 0, 0, 0.5)';
+      default: return active ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0.5)';
     }
   };
 
@@ -75,19 +76,21 @@ function TaskCard({ task, active }) {
   };
 
   const cardStyle = {
-    opacity: active ? 1 : 0.5, 
     backgroundColor: getBackgroundColor(), 
     border: `7px solid ${getBorderColor()}`,
   };
   
   return (
-    <div className="task-card" style={cardStyle} draggable={active} onDragStart={(event)=>{
+    <div 
+    className= {`task-card ${active ? 'active' : 'inactive'}`} 
+    style={cardStyle} draggable={active}  onDragStart={(event)=>{
       if (!active) {
         event.preventDefault();
       } else {
         event.dataTransfer.setData('text/plain',task.id);
       }
-    }} onDoubleClick={handleDoubleClick}>
+    }} onDoubleClick={handleDoubleClick}
+    >
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
       {(loggedUser?.role && ((loggedUser.role === 'ScrumMaster' && active) || loggedUser.role === 'Owner')) && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}

@@ -10,8 +10,10 @@ function UserCard({ user, active }) {
   const selectedUserInList = useUserStore(state => state.selectedUserInList);
   const openUserDetailsModal = useUserStore(state => state.openUserDetailsModal);
   
+  const setActiveUser = useUserStore(state => state.setActiveUser);
   const handleDoubleClick = async () => {
     await selectedUserInList(user.username);
+    setActiveUser(active);
     openUserDetailsModal();
   };
 

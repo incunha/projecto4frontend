@@ -5,6 +5,7 @@ import ConfirmationModal from '../modal-confirmation/confirmationModal';
 
 function UserDetailsModal({ isOpen, onClose }) {
   const user = useUserStore(state => state.selectedUser);
+  const active = useUserStore(state => state.activeUser);
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -21,16 +22,17 @@ function UserDetailsModal({ isOpen, onClose }) {
     { display: 'Product Owner', value: 'Owner' },
   ];
 
+ 
+
   useEffect(() => {
     if (user) {
-      console.log(user);
       const names = user.name.split(' ');
-      setFirstName(names[0]);
-      setLastName(names[1]);
-      setEmail(user.email);
-      setContactNumber(user.contactNumber);
-      setUserPhoto(user.userPhoto);
-      setRole(user.role);
+      setFirstName(names[0] || '');
+      setLastName(names[1] || '');
+      setEmail(user.email || '');
+      setContactNumber(user.contactNumber || '');
+      setUserPhoto(user.userPhoto || '');
+      setRole(user.role || '');
     }
   }, [user]);
 
@@ -55,6 +57,30 @@ function UserDetailsModal({ isOpen, onClose }) {
     setConfirmationAction(() => handleSave);
     setConfirmationMessage('Are you sure you want to save changes?'); 
     setIsConfirmationModalOpen(true);
+  };
+
+  const handleRestoreUserClick = () => {
+    setConfirmationAction(() => handleRestoreUser);
+    setConfirmationMessage('Are you sure you want to restore this user?'); 
+    setIsConfirmationModalOpen(true);
+  };
+
+  const handleRestoreUser = async () => {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/restore/${user.username}`, {
+      method: 'POST',
+      headers: {
+        Accept: "*/*",
+        token: sessionStorage.getItem("token"),
+      },
+    });
+    if (response.ok) {
+      alert('User restored successfully');  
+      useUserStore.getState().fetchInactiveUsers();
+      setIsEditing(false);
+      onClose();
+    } else {
+      console.error('Failed to restore user');
+    }
   };
 
   const handleDeleteTasks = async () => {
@@ -136,7 +162,6 @@ function UserDetailsModal({ isOpen, onClose }) {
     return null;
   }
 
-
   return (
     <div className={`modalUserDetails ${isOpen ? 'modal-open' : ''}`}>
     <div className="modal-overlay" onClick={onClose}></div>
@@ -179,7 +204,8 @@ function UserDetailsModal({ isOpen, onClose }) {
             ))}
           </select>
         </label>
-        {!isEditing && <button className = 'myButton' type="button" onClick={handleEditClick}>Edit</button>}
+        {!isEditing && active && <button className = 'myButton' type="button" onClick={handleEditClick}>Edit</button>}
+        {!active && <button className='myButton' type="button" onClick={handleRestoreUserClick}>Restore User</button>}
             {isEditing && <button className = 'myButton' type="button" onClick={handleSaveClick}>Save</button>}
           </form>
           <div className="button-groupUserDetails">

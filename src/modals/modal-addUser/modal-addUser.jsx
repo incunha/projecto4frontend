@@ -29,6 +29,7 @@ function ModalAddUser({ isOpen, onRequestClose }) {
         event.preventDefault();
         const name = `${firstName} ${lastName}`;
         await registerUser(name, username, email, contactNumber, userPhoto, password);
+        useUserStore.getState().fetchActiveUsers();
         onRequestClose();
       };
 

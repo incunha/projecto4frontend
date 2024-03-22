@@ -16,6 +16,24 @@
     flex-shrink: 0; 
     flex-grow: 0;
   }
+
+  .task-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+  }
+  
+  .task-card.inactive::after {
+    opacity: 0.5;
+  }
+  
+  .task-card.active::after {
+    opacity: 0;
+  }
   
   .task-title {
     font-size: 15px;
@@ -67,4 +85,3 @@
     height: 18px;
   }
 
-  

@@ -11,8 +11,10 @@ function ConfirmationModal({ isOpen, onRequestClose, message, onConfirm }) {
       <div className="warning-modal">
         <h2>Warning</h2>
         <p>{message}</p>
-        <button onClick={onRequestClose}>Close</button>
-        <button onClick={onConfirm}>Confirm</button>
+        <div className="button-groupConfirmation">
+        <button className='myButton' onClick={onRequestClose}>Close</button>
+        <button className= 'myButton' onClick={onConfirm}>Confirm</button>
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ export const useUserStore = create(set => ({
   selectedUserForDetails: null,
   isUsersVisible: false,
   userUsername: null,
+  activeUser: null,
 
   setIsUsersVisible: () => set(state => ({ isUsersVisible: !state.isUsersVisible })),
   setSelectedUser: (user) => set({ selectedUser: user }),
@@ -17,6 +18,7 @@ export const useUserStore = create(set => ({
   setUserRole: (role) => set({ userRole: role }),
   setUsersView: (isUsersView) => set({ isUsersView }),
   setUsersVisible: (isUsersVisible) => set({ isUsersVisible }),
+  setActiveUser: (active) => set({ activeUser: active }),
 
   
   selectedUserInList: async (username) => {
@@ -148,6 +150,8 @@ export const useUserStore = create(set => ({
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': '*/*',
+          token: sessionStorage.getItem('token'),
         },
         body: JSON.stringify({
           name,
@@ -162,23 +166,13 @@ export const useUserStore = create(set => ({
         console.error(`Error registering user: ${response.statusText}`);
         return;
       }
-      const contentType = response.headers.get("content-type");
-      if (contentType && contentType.indexOf("application/json") !== -1) {
-        const newUser = await response.json();
-        set(state => ({ users: [...state.users, newUser] }));
-      } else {
-        const responseText = await response.text();
-        console.log('Response text:', responseText);
-        if (responseText === 'A new user is created') {
-          
-        } else {
-          console.error('Unexpected response:', responseText);
-        }
-      }
+      alert('User registered successfully');
     } catch (error) {
       console.error(error);
     }
   },
+
+
   updateUser: (updatedUser) => {
     set(state => ({
       users: state.users.map(user => user.username === updatedUser.username ? updatedUser : user)
