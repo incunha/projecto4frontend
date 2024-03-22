@@ -1,6 +1,5 @@
 import React from 'react';
 import './viewUsersButton.css';
-import { useUserStore } from '../../../../userStore';
 import { useNavigate } from 'react-router-dom';
 
 function ViewUsersButton() {

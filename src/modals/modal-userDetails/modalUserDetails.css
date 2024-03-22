@@ -1,13 +1,86 @@
 .modalUserDetails {
-    position: fixed; 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
     z-index: 2;
+  }
+  
+  .modalUserDetails.modal-open {
+    display: flex;
+  }
+  
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 2;
+  }
+  
+  .modal-contentUserDetails {
+    position: relative;
+    z-index: 3;
+    background-color: white;
     width: 80%;
+    height: 80%;
+    max-height: 500px;
     max-width: 500px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-}
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: space-between ;
+    color: var(--green3);
+    margin-top: 50px;
+  }
+
+  .formUserDetails {
+    align-items: flex-start;
+  }
+
+  .userDetailsTitle {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 50px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .modal-content-left {
+    width: 70%;
+  }
+
+  .labelUserDetails {
+    display: block;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .userDetailsPhoto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 160px;
+  }
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .button-groupUserDetails {
+    display: flex;
+    margin-top: 50px;
+  }

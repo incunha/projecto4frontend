@@ -7,7 +7,7 @@ function Users() {
   const userColumns = ['Developer', 'Scrum Master', 'Product Owner'];
   const roleMapping = {
     'Developer': 'developer',
-    'Scrum Master': 'ScruMaster',
+    'Scrum Master': 'ScrumMaster',
     'Product Owner': 'Owner'
   };
 

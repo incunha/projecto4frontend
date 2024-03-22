@@ -88,9 +88,9 @@ function CategoriesModal({isOpen, onRequestClose}) {
   return (
     <div className="categories-modal-overlay">
       <div className="categories-modal">
-        
+      <button className="close-buttonCategories" onClick={onRequestClose}>X</button>
         {isCreating ? (
-          <div className="modal">
+          <div className="modalCategories">
             <label>
               Name:
               <input type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
@@ -100,7 +100,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
             <button onClick={() => setIsCreating(false)}>Cancel</button>
           </div>
         ) : categoryToEdit ? (
-          <div className="modal">
+          <div className="modalCategories">
             <label>
               New name:
               <input type="text" value={newCategoryName} onChange={e => setNewCategoryName(e.target.value)} />
@@ -109,9 +109,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
             <button onClick={() => setCategoryToEdit(null)}>Cancel</button>
           </div>
         ) : (
-          <div className="modal">
-            <button onClick={onRequestClose}>Close Modal</button>
-            <button onClick={() => setIsCreating(true)}>Create Category</button>
+          <div className="modalCategories">
             <table>
               <thead>
                 <tr>
@@ -134,6 +132,9 @@ function CategoriesModal({isOpen, onRequestClose}) {
 ))}
               </tbody>
             </table>
+            <div className="button-groupCategories">
+            <button className='myButton' onClick={() => setIsCreating(true)}>Create</button>
+            </div>
           </div>
         )}
        
