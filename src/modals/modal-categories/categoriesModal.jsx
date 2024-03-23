@@ -19,6 +19,7 @@ function CategoriesModal({isOpen, onRequestClose}) {
   const warningMessage = useCategoryStore(state => state.warningMessage);
   const setWarningModalOpen = useCategoryStore(state => state.setWarningModalOpen);
 
+
   useEffect(() => {
     if (isOpen) {
       fetchCategories();

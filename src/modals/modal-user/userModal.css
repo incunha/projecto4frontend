@@ -41,6 +41,7 @@
     width: 100px;
     height: 100px;
     margin-right: 40px;
+    object-fit: cover;
   }
 
   #closeButtonProfile {

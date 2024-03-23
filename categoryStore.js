@@ -51,7 +51,7 @@ const useCategoryStore = create((set) => ({
       );
 
       if (response.ok) {
-        await fetchCategories();
+        await useCategoryStore.getState().fetchCategories();
       }else if(response.status === 409){
         set({ isWarningModalOpen: true, warningMessage: 'Cannot delete category that has tasks.' });
       }
@@ -78,7 +78,7 @@ const useCategoryStore = create((set) => ({
       );
 
       if (response.ok) {
-        await fetchCategories();
+        await useCategoryStore.getState().fetchCategories();
       }else if(response.status === 409){
         set({ isWarningModalOpen: true, warningMessage: 'Category already exists' });
       }
@@ -108,7 +108,7 @@ const useCategoryStore = create((set) => ({
       );
 
       if (response.ok) {
-        await fetchCategories();
+        await useCategoryStore.getState().fetchCategories();
       }
       else if(response.status === 409){
         set({ isWarningModalOpen: true, warningMessage: 'Name already exists' });

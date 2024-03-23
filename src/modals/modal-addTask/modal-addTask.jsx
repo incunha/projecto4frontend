@@ -6,7 +6,7 @@ import './modal-addTask.css';
 function AddTaskModal({ isOpen, onRequestClose }) {
   const categories = useCategoryStore(state => state.categories);
   const fetchCategories = useCategoryStore(state => state.fetchCategories);
-  const fetchTasks = useTasksStore(state => state.fetchTasks);
+  const fetchActiveTasks = useTasksStore(state => state.fetchActiveTasks);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [priority, setPriority] = useState('');
@@ -31,7 +31,7 @@ function AddTaskModal({ isOpen, onRequestClose }) {
     const finalEndDate = endDate || '2199-12-31';
 
     try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/add', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

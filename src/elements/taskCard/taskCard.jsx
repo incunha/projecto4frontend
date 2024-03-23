@@ -11,7 +11,7 @@ function TaskCard({ task, active }) {
   const loggedUser = useUserStore((state) => state.loggedUser);
 
   const handleDelete = async () => {
-    await deleteTask(task.id);
+    await deleteTask(task.id, active);
   };
 
 

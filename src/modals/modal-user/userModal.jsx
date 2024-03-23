@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './userModal.css';
+import { useUserStore } from '../../../userStore';
 
 function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   const [user, setUser] = useState({});
@@ -11,6 +12,7 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   const [username, setUsername] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
+  const {fetchUser} = useUserStore();
   
 
   useEffect(() => {
@@ -73,6 +75,7 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
       setIsEditing(false);
       onRequestClose();
       updateUserInfo(firstName, userPhoto);
+      fetchUser();
     } else {
       console.error('Failed to update user data');
     }
@@ -101,8 +104,8 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
           <input type="password" className="inputFieldProfile" placeholder="Re-write Password" disabled={!isEditing} />
         </div>
         <div className="userImageContainer">
-          <img id="userImage" className="userImageProfile" src={user.userPhoto} />
-        </div>
+  <img id="userImage" className="userImageProfile" src={userPhoto || user.userPhoto} />
+</div>
       </div>
       <div className="buttonContainer">
         <button id="editButton" className="myButton" onClick={handleEditClick}>Edit</button>

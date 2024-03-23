@@ -4,6 +4,7 @@ import './modalUserDetails.css';
 import ConfirmationModal from '../modal-confirmation/confirmationModal';
 
 function UserDetailsModal({ isOpen, onClose }) {
+  const loggedUser = useUserStore(state => state.loggedUser);
   const user = useUserStore(state => state.selectedUser);
   const active = useUserStore(state => state.activeUser);
   const [isEditing, setIsEditing] = useState(false);
@@ -22,8 +23,7 @@ function UserDetailsModal({ isOpen, onClose }) {
     { display: 'Product Owner', value: 'Owner' },
   ];
 
- 
-
+  // Atualiza os campos do formulário com os dados do user selecionado
   useEffect(() => {
     if (user) {
       const names = user.name.split(' ');
@@ -40,31 +40,35 @@ function UserDetailsModal({ isOpen, onClose }) {
     setIsEditing(true);
   };
 
+  // Abre o modal de confirmação para excluir todas as tarefas do user
   const handleDeleteTasksClick = () => {
     setConfirmationAction(() => handleDeleteTasks);
     setConfirmationMessage('Are you sure you want to delete all tasks?'); 
     setIsConfirmationModalOpen(true);
   };
   
-
+// Abre o modal de confirmação para excluir o user
   const handleDeleteUserClick = () => {
     setConfirmationAction(() => handleDeleteUser);
     setConfirmationMessage('Are you sure you want to delete this user?'); 
     setIsConfirmationModalOpen(true);
   };
 
+  // Abre o modal de confirmação para salvar as alterações do user
   const handleSaveClick = () => {
     setConfirmationAction(() => handleSave);
     setConfirmationMessage('Are you sure you want to save changes?'); 
     setIsConfirmationModalOpen(true);
   };
 
+  // Abre o modal de confirmação para restaurar o user
   const handleRestoreUserClick = () => {
     setConfirmationAction(() => handleRestoreUser);
     setConfirmationMessage('Are you sure you want to restore this user?'); 
     setIsConfirmationModalOpen(true);
   };
 
+  //Função para restaurar o user
   const handleRestoreUser = async () => {
     const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/restore/${user.username}`, {
       method: 'POST',
@@ -83,8 +87,9 @@ function UserDetailsModal({ isOpen, onClose }) {
     }
   };
 
+  //Função para apagar todas as tarefas do user
   const handleDeleteTasks = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/task/deleteAll/${user.username}`, {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/deleteAll/${user.username}`, {
       method: 'DELETE',
       headers: {
         Accept: "*/*",
@@ -92,7 +97,6 @@ function UserDetailsModal({ isOpen, onClose }) {
       },
     });
     if (response.ok) {
-      alert('User tasks deleted successfully');  
       useUserStore.getState().fetchActiveUsers();
       setIsEditing(false);
       onClose();
@@ -101,6 +105,7 @@ function UserDetailsModal({ isOpen, onClose }) {
     }
   };
 
+  //Função para apagar o user
   const handleDeleteUser = async () => {
     const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/delete/${user.username}`, {
       method: 'DELETE',
@@ -109,9 +114,8 @@ function UserDetailsModal({ isOpen, onClose }) {
         token: sessionStorage.getItem("token"),
       },
     });
-    if (response.ok) {
-      alert('User deleted successfully');  
-      useUserStore.getState().fetchActiveUsers();
+    if (response.ok) { 
+      useUserStore.getState().fetchInactiveUsers();
       setIsEditing(false);
       onClose();
     } else {
@@ -119,6 +123,7 @@ function UserDetailsModal({ isOpen, onClose }) {
     }
   };
 
+  //Função para salvar as alterações do perfil do user excepto o username (primary key)
   const handleSave = async () => {
     const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
       method: 'PUT',
@@ -146,11 +151,13 @@ function UserDetailsModal({ isOpen, onClose }) {
     }
   };
 
+// Fecha o modal de detalhes do usuário
   const onCloseModal = () => {
     setIsEditing(false); 
     onClose();
   };
 
+  // Executa a ação de confirmação e fecha o modal de confirmação
   const handleConfirm = () => {
     if (confirmationAction) {
       confirmationAction();
@@ -158,10 +165,12 @@ function UserDetailsModal({ isOpen, onClose }) {
     setIsConfirmationModalOpen(false);
   };
 
+  // Retorna null se o modal não estiver aberto ou se o user não estiver definido
   if (!isOpen || !user) {
     return null;
   }
-
+  
+  // Renderização do componente
   return (
     <div className={`modalUserDetails ${isOpen ? 'modal-open' : ''}`}>
     <div className="modal-overlay" onClick={onClose}></div>
@@ -204,14 +213,14 @@ function UserDetailsModal({ isOpen, onClose }) {
             ))}
           </select>
         </label>
-        {!isEditing && active && <button className = 'myButton' type="button" onClick={handleEditClick}>Edit</button>}
-        {!active && <button className='myButton' type="button" onClick={handleRestoreUserClick}>Restore User</button>}
-            {isEditing && <button className = 'myButton' type="button" onClick={handleSaveClick}>Save</button>}
+        {!isEditing && active && loggedUser?.role === 'Owner' && <button className = 'myButton' type="button" onClick={handleEditClick}>Edit</button>}
+{!active && loggedUser?.role === 'Owner' && <button className='myButton' type="button" onClick={handleRestoreUserClick}>Restore User</button>}
+{isEditing && loggedUser?.role === 'Owner' && <button className = 'myButton' type="button" onClick={handleSaveClick}>Save</button>}
           </form>
           <div className="button-groupUserDetails">
-            <button className = 'myButton' type="button" onClick={handleDeleteTasksClick}>Delete Tasks</button>
-            <button className='myButton' type="button" onClick={handleDeleteUserClick}>Delete User</button>
-          </div>
+  {loggedUser?.role === 'Owner' && <button className = 'myButton' type="button" onClick={handleDeleteTasksClick}>Delete Tasks</button>}
+  {loggedUser?.role === 'Owner' && <button className='myButton' type="button" onClick={handleDeleteUserClick}>Delete User</button>}
+</div>
         </div>
         <img src={userPhoto} alt="User" className="userDetailsPhoto" />
       </div>

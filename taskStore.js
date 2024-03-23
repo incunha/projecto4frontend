@@ -83,7 +83,8 @@ const useTasksStore = create((set) => ({
     }
   },
 
-  deleteTask: async (taskId) => {
+  deleteTask: async (taskId, isActive) => {
+    console.log("taskId", taskId);
     try {
       const response = await fetch(
         `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/block/${taskId}`,
@@ -101,8 +102,11 @@ const useTasksStore = create((set) => ({
         console.error(`Error deleting task: ${response.statusText}`);
         return;
       }
-
-      await useTasksStore.getState().fetchActiveTasks();
+      if (isActive) {
+        await useTasksStore.getState().fetchActiveTasks();
+      } else {
+        await useTasksStore.getState().fetchInactiveTasks();
+      }
     } catch (error) {
       console.error(error);
     }
