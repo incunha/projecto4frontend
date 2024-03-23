@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 export const useUserStore = create(set => ({
+  // Estado inicial
   users: [],
   userRole: null,
   isUsersView: true,
@@ -12,6 +13,7 @@ export const useUserStore = create(set => ({
   userUsername: null,
   activeUser: null,
 
+  // Funções para modificar o estado
   setIsUsersVisible: () => set(state => ({ isUsersVisible: !state.isUsersVisible })),
   setSelectedUser: (user) => set({ selectedUser: user }),
   setUserUsername: (username) => set({ userUsername: username }),
@@ -19,8 +21,12 @@ export const useUserStore = create(set => ({
   setUsersView: (isUsersView) => set({ isUsersView }),
   setUsersVisible: (isUsersVisible) => set({ isUsersVisible }),
   setActiveUser: (active) => set({ activeUser: active }),
+  openUserDetailsModal: () => set(state => ({ isUserDetailsModalOpen: true, selectedUser: state.selectedUser })),
+  closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUser: null }),
+  setUsers: (users) => set({ users }),
+  toggleUsersView: () => set(state => ({ isUsersView: !state.isUsersView })),
 
-  
+  //Função para ir buscar os dados de um user
   selectedUserInList: async (username) => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -52,13 +58,8 @@ export const useUserStore = create(set => ({
       console.error(error);
     }
   },
-  
-  openUserDetailsModal: () => set(state => ({ isUserDetailsModalOpen: true, selectedUser: state.selectedUser })),
-  closeUserDetailsModal: () => set({ isUserDetailsModalOpen: false, selectedUser: null }),
-  setUsers: (users) => set({ users }),
-  toggleUsersView: () => set(state => ({ isUsersView: !state.isUsersView })),
-
  
+  //Função que vai buscar todos os users 
   fetchUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -80,6 +81,7 @@ export const useUserStore = create(set => ({
     }
   },
   
+  //Função para ir buscar todos os users ativos
   fetchActiveUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -101,6 +103,7 @@ export const useUserStore = create(set => ({
     }
   },
 
+//Função para ir buscar todos os users inativos
   fetchInactiveUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
@@ -122,6 +125,7 @@ export const useUserStore = create(set => ({
     }
   },
 
+//Função para ir buscar os dados do user que está logado
   fetchUser: async () => {
     const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/myUserDto', {
       method: 'GET',
@@ -144,6 +148,7 @@ export const useUserStore = create(set => ({
     }
   },
   
+  //Função para registar um user 
   registerUser: async (name, username, email, contactNumber, userPhoto, password) => {
     try {
       const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {
@@ -172,7 +177,7 @@ export const useUserStore = create(set => ({
     }
   },
 
-
+  //Função para atualizar os dados de um user
   updateUser: (updatedUser) => {
     set(state => ({
       users: state.users.map(user => user.username === updatedUser.username ? updatedUser : user)

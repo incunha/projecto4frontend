@@ -3,6 +3,8 @@
   width: 4%;
   height: 100vh;
   transition: width 0.5s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .aside-menu.open {

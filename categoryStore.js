@@ -1,14 +1,14 @@
 import { create } from "zustand";
 
-
-
 const useCategoryStore = create((set) => ({
   categories: [],
   isWarningModalOpen: false,
+
+  // Função para definir se o modal de aviso está aberto ou fechado
   setWarningModalOpen: (isOpen) => set({ isWarningModalOpen: isOpen }),
   
-
-   fetchCategories: async () => {
+//Função para ir buscar as categorias
+  fetchCategories: async () => {
     try {
       const response = await fetch(
         "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/allCategories",
@@ -34,6 +34,7 @@ const useCategoryStore = create((set) => ({
     }
   },
 
+  //Função para apagar uma categoria
   deleteCategory: async (categoryName) => {
     try {
       const token = sessionStorage.getItem("token");
@@ -60,6 +61,7 @@ const useCategoryStore = create((set) => ({
     }
   },
 
+//Função para criar uma categoria
   createCategory: async (newCategoryName) => {
     try {
       const response = await fetch(
@@ -86,6 +88,7 @@ const useCategoryStore = create((set) => ({
     }
   },
 
+  //Função para editar uma categoria
   updateCategory: async (categoryToEdit, newCategoryName) => {
     try {
       const response = await fetch(
