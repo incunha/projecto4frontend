@@ -1,5 +1,4 @@
 import React from 'react';
-import './viewTasksButton.css';
 import { useNavigate } from 'react-router-dom';
 
 function ViewTasksButton() {
@@ -10,7 +9,7 @@ function ViewTasksButton() {
     };
   
     return (
-      <button className="viewTasksButton" onClick={handleClick}>
+      <button className="aside-button" onClick={handleClick}>
         View Tasks
       </button>
     );

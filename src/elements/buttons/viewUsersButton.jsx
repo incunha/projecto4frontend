@@ -1,5 +1,4 @@
 import React from 'react';
-import './viewUsersButton.css';
 import { useNavigate } from 'react-router-dom';
 
 function ViewUsersButton() {
@@ -10,7 +9,7 @@ function ViewUsersButton() {
   };
 
   return (
-    <button className="view-users-button" onClick={handleClick}>
+    <button className="aside-button" onClick={handleClick}>
       View Users
     </button>
   );

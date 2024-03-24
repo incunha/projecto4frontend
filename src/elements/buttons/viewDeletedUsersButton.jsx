@@ -1,5 +1,4 @@
 import React from "react";
-import "./viewDeletedUsersButton.css";
 import { useNavigate } from "react-router-dom";
 
 function ViewDeletedUsersButton() {
@@ -10,7 +9,7 @@ function ViewDeletedUsersButton() {
     };
     
     return (
-        <button className="viewDeletedUsersButton" onClick={handleClick}>
+        <button className="aside-button" onClick={handleClick}>
         View Deleted Users
         </button>
     );

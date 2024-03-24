@@ -44,9 +44,7 @@
   color: var(--green3); /* Cor do texto */
 }
 
-#registerLink {
-  margin-top: 80px; /* Margem superior */
-}
+
 
 .registerLink:hover {
   color: var(--green2); /* Cor do texto ao passar o cursor por cima */

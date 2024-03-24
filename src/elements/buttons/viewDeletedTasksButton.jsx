@@ -1,5 +1,4 @@
 import React from "react";
-import "./viewDeletedTasksButton.css";
 import { useNavigate } from "react-router-dom";
 
 function ViewDeletedTasksButton() {
@@ -10,7 +9,7 @@ function ViewDeletedTasksButton() {
     };
     
     return (
-        <button className="viewDeletedTasksButton" onClick={handleClick}>
+        <button className="aside-button" onClick={handleClick}>
         View Deleted Tasks
         </button>
     );

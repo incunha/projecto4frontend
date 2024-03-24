@@ -15,6 +15,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
     const [loginUsername, setLoginUsername] = useState(''); // Estado para armazenar o nome de user no processo de login
     const [loginPassword, setLoginPassword] = useState(''); // Estado para armazenar a palavra-passe no processo de login
     const [imageUrlInput, setImageUrlInput] = useState(''); // Estado para armazenar o URL da imagem de perfil do user
+    const [errorMessage, setErrorMessage] = useState(''); // Estado para armazenar a mensagem de erro
 
     useEffect(() => {
         const token = sessionStorage.getItem('token'); // Obtenção do token armazenado na sessionStorage
@@ -35,7 +36,6 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
     const handleImageUrlChange = (event) => {
         const imageUrl = event.target.value;
         setImageUrlInput(imageUrl); // Atualização do estado do URL da imagem de perfil
-        document.getElementById('userImage').src = imageUrl; // Atualização da imagem de perfil
         setUserPhoto(imageUrl); // Definição da foto do user
     };
 
@@ -82,9 +82,16 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
             setToken(token); // Definição do token no estado global de autenticação
             sessionStorage.setItem('token', token); // Armazenamento do token na sessionStorage
             props.onLogin(); // Chamada da função onLogin passada por props
+        } if (!loginUsername || !loginPassword) {
+            setErrorMessage('Please fill all fields');
+            return;
+        }else {
+            if (response.status === 403) {
+                setErrorMessage('User is not active, please contact the administrator');
         } else {
-            alert('Erro ao iniciar sessão'); // Alerta em caso de erro no login
+            setErrorMessage('Error logging in'); // Mensagem de erro em caso de falha no login
         }
+    }
     };
     
     return (
@@ -98,7 +105,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
                             <input type="password" id="password" placeholder="password" required value={loginPassword} onChange={e => setLoginPassword(e.target.value)} />
                         </div>
                         <button id="loginButton" className="myButton" onClick={handleLoginClick}>Login</button>
-                        <p id="warningMessage"></p>
+                        <p id="errorMessage">{errorMessage}</p>
                         <p>Don't have an account? <button id="registerLink" className="registerLink" onClick={handleRegisterClick}>Register now!</button></p>
                     </>
                 ) : (
@@ -111,7 +118,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
                     <input className ="inputLogin" type="text" id="registerContact"  placeholder="Contact" required value={contactNumber} onChange={e => setContactNumber(e.target.value)} />
                     <input className ="inputLogin" type="url" id="userPhotoUrl"  placeholder="Image URL" required value={imageUrlInput} onChange={e => handleImageUrlChange(e)} />
                     <input className ="inputLogin" type="password" id="registerPassword"  placeholder="Password" required value={password} onChange={e => setPassword(e.target.value)} />
-                    <img className="userImageLogin" src={userPhoto} />
+                    <img className="userImageLogin" src={userPhoto} alt="User" />
                     <div className="buttonContainerLogin">
                     <button className="myButton" onClick={handleCancelClick}>Cancel</button>
                     <button className="myButton">Register</button>
