@@ -1,6 +1,6 @@
 import './userCard.css';
 import { useUserStore } from '../../../userStore';
-import React, { useState } from 'react';
+import React from 'react';
 
 function UserCard({ user, active }) {
   if (!user) {

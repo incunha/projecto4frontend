@@ -51,7 +51,7 @@ export const useUserStore = create(set => ({
 
   setSelectedUser: async (username) => {
     try {
-      const user = await selectUserInList(username);
+      const user = await selectedUserInList(username);
       set({ selectedUser: user });
       openUserDetailsModal();
     } catch (error) {

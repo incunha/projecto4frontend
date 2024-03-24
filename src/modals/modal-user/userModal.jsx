@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import './userModal.css';
-import { useUserStore } from '../../../userStore';
+import './userModal.css'; // Importa estilos CSS locais
+import { useUserStore } from '../../../userStore'; // Importa o hook do zustand
 
 function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
+  // Define estados locais para controlar os dados do user e o modo de edição
   const [user, setUser] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -12,11 +13,12 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   const [username, setUsername] = useState('');
   const [contactNumber, setContactNumber] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
-  const {fetchUser} = useUserStore();
-  
+  const { fetchUser } = useUserStore(); // Usa o hook do zustand para buscar dados do user
 
+  // Efeito para carregar os dados do user quando o modal é aberto
   useEffect(() => {
     const fetchUser = async () => {
+      // Faz uma requisição para obter os dados do user atual
       const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/myUserDto', {
         method: 'GET',
         headers: {
@@ -27,6 +29,7 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
       });
 
       if (response.ok) {
+        // Se a resposta for bem-sucedida, atualiza os estados locais com os dados do user
         const data = await response.json();
         setUser(data);
         setFirstName(data.name ? data.name.split(' ')[0] : '');
@@ -40,20 +43,24 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
       }
     };
 
+    // Chama a função de busca do user quando o modal é aberto
     if (isOpen) {
       fetchUser();
     }
   }, [isOpen]);
 
+  // Função para lidar com o clique no botão de edição
   const handleEditClick = () => {
-    setIsEditing(true);
+    setIsEditing(true); // Define o modo de edição como verdadeiro
   };
 
+  // Função para fechar o modal
   const handleClose = () => {
-    setIsEditing(false);
-    onRequestClose();
+    setIsEditing(false); // Define o modo de edição como falso
+    onRequestClose(); // Chama a função para fechar o modal
   };
 
+  // Função para atualizar os dados do user
   const handleSaveClick = async () => {
     const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
       method: 'PUT',
@@ -71,43 +78,46 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
       })
     });
     if (response.ok) {
-      alert('User data updated successfully');
-      setIsEditing(false);
-      onRequestClose();
-      updateUserInfo(firstName, userPhoto);
-      fetchUser();
+      setIsEditing(false); // Define o modo de edição como falso
+      onRequestClose(); // Fecha o modal
+      updateUserInfo(firstName, userPhoto); // Atualiza os dados do user na interface
+      fetchUser(); // Atualiza os dados do user no estado global
     } else {
       console.error('Failed to update user data');
     }
   };
 
   return (
+    // Componente Modal do react para exibir o formulário de perfil do user
     <Modal isOpen={isOpen} onRequestClose={handleClose} className="modalAddUser">
       <div className="modalContent">
-        <span id="closeButtonProfile" onClick={handleClose}>X</span>
+        <span id="closeButtonProfile" onClick={handleClose}>X</span> {/* Botão para fechar o modal */}
         <div className="inputFields">
-          <label className = "labelProfile" >First Name</label>
+          {/* Campos de entrada para os dados do perfil do user */}
+          <label className="labelProfile">First Name</label>
           <input type="text" className="inputFieldProfile" placeholder={firstName} disabled={!isEditing} onChange={e => setFirstName(e.target.value)} />
-          <label className = "labelProfile" >Last Name</label>
+          <label className="labelProfile">Last Name</label>
           <input type="text" className="inputFieldProfile" placeholder={lastName} disabled={!isEditing} onChange={e => setLastName(e.target.value)} />
-          <label className = "labelProfile" >Email</label>
+          <label className="labelProfile">Email</label>
           <input type="email" className="inputFieldProfile" placeholder={email} disabled={!isEditing} onChange={e => setEmail(e.target.value)} />
-          <label className = "labelProfile" >Username</label>
+          <label className="labelProfile">Username</label>
           <input type="text" className="inputFieldProfile" placeholder={username} disabled={!isEditing} onChange={e => setUsername(e.target.value)} />
-          <label className = "labelProfile" >Contact Number</label>
+          <label className="labelProfile">Contact Number</label>
           <input type="text" className="inputFieldProfile" placeholder={contactNumber} disabled={!isEditing} onChange={e => setContactNumber(e.target.value)} />
-          <label className = "labelProfile" >User Photo URL</label>
+          <label className="labelProfile">User Photo URL</label>
           <input type="url" className="inputFieldProfile" placeholder={userPhoto} disabled={!isEditing} onChange={e => setUserPhoto(e.target.value)} />
-          <label className = "labelProfile" >Password</label>
+          <label className="labelProfile">Password</label>
           <input type="password" className="inputFieldProfile" placeholder="Password" disabled={!isEditing} />
-          <label className = "labelProfile" >Re-write Password</label>
+          <label className="labelProfile">Re-write Password</label>
           <input type="password" className="inputFieldProfile" placeholder="Re-write Password" disabled={!isEditing} />
         </div>
         <div className="userImageContainer">
-  <img id="userImage" className="userImageProfile" src={userPhoto || user.userPhoto} />
-</div>
+          {/* Exibe a imagem do user */}
+          <img id="userImage" className="userImageProfile" src={userPhoto || user.userPhoto} alt="User" />
+        </div>
       </div>
       <div className="buttonContainer">
+        {/* Botões para editar e salvar o perfil do user */}
         <button id="editButton" className="myButton" onClick={handleEditClick}>Edit</button>
         {isEditing && <button id="saveButton" className="myButton" onClick={handleSaveClick}>Save</button>}
       </div>
