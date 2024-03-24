@@ -46,16 +46,6 @@ function MenuAside() {
   // Hook de navegação para redirecionamento de rotas
   const navigate = useNavigate();
 
-  // Função para lidar com a exibição dos botões de visualização de tarefas
-  const handleViewTasksButtons = () => {
-    setActiveMenu('tasks');
-  };
-
-  // Função para lidar com a exibição dos botões de visualização de users
-  const handleViewUsersButtons = () => {
-    setActiveMenu('users');
-  };
-
   // Função para alternar a visibilidade do menu
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);

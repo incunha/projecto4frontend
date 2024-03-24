@@ -20,7 +20,7 @@ function LogoutButton() {
             sessionStorage.removeItem('token'); 
             window.location.reload();
         } else {
-            alert('Logout failed');
+            console.error('Logout failed');
         }
     };
 

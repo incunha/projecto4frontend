@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// ViewTasksButton component
+// Botão que redireciona o user para a página de visualização de tasks
 function ViewTasksButton() {
     const navigate = useNavigate();
   

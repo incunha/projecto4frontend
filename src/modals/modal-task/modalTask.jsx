@@ -10,6 +10,7 @@ function TaskModal({ task, isOpen, onClose }) { // Componente funcional para exi
   const {categories, fetchCategories} = useCategoryStore(); // Extração das categorias e da função para buscar categorias do hook useCategoryStore
   const loggedUser = useUserStore(state => state.loggedUser); // Extração do user logado do estado global usando o hook useUserStore
   const [taskCreator, setTaskCreator] = useState(null); // Estado para armazenar o criador da tarefa
+  const [showWarning, setShowWarning] = useState(false); // Estado para controlar a exibição do aviso
 
   useEffect(() => { // Efeito para ir buscar o criador da tarefa quando o modal é aberto
     const fetchTaskCreator = async () => { // Função assíncrona para ir buscar o criador da tarefa
@@ -31,6 +32,14 @@ function TaskModal({ task, isOpen, onClose }) { // Componente funcional para exi
   };
 
   const handleSaveClick = async () => { // Função para lidar com o clique no botão de salvar
+    // Verifica se algum dos campos obrigatórios está vazio
+    if (!editedTask.title || !editedTask.description || !editedTask.category || !editedTask.startDate || !editedTask.priority || !editedTask.status) {
+      setShowWarning(true); // Mostra o aviso
+      return; // Interrompe a execução da função
+    }
+  
+    setShowWarning(false); // Esconde o aviso
+  
     if (editedTask.endDate === '') { // Verifica se a data de término da tarefa está vazia
       editedTask.endDate = '2199-12-31'; // Define a data de término como uma data futura caso esteja vazia
     }
@@ -42,6 +51,7 @@ function TaskModal({ task, isOpen, onClose }) { // Componente funcional para exi
   const handleCancelClick = () => { // Função para lidar com o clique no botão de cancelar
     setIsEditing(false); // Atualiza o estado para indicar que a edição da tarefa foi cancelada
     setEditedTask({ ...task }); // Restaura os detalhes da tarefa para os valores originais
+    setShowWarning(false); // Esconde o aviso
   };
 
   const handleChange = (event) => { // Função para lidar com a alteração nos campos de edição da tarefa
@@ -123,6 +133,7 @@ function TaskModal({ task, isOpen, onClose }) { // Componente funcional para exi
              <option value="30">Done</option>
              </select>
                 </div>
+                {showWarning && <p style={{ color: 'red' }}>Please fill in all fields.</p>} 
                 <div className = "buttonContainerTaskModal">
               <button className = "myButton" onClick={handleSaveClick}>Save</button>
               <button className = "myButton" onClick={handleCancelClick}>Cancel</button>

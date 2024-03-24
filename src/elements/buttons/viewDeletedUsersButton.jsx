@@ -1,6 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+// ViewDeletedUsersButton component
+// Botão que redireciona o user para a página de visualização de users deletados
+
 function ViewDeletedUsersButton() {
     const navigate = useNavigate();
 

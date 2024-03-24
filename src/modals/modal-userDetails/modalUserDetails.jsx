@@ -77,9 +77,8 @@ function UserDetailsModal({ isOpen, onClose }) {
         token: sessionStorage.getItem("token"),
       },
     });
-    if (response.ok) {
-      alert('User restored successfully');  
-      useUserStore.getState().fetchInactiveUsers();
+    if (response.ok) {  
+      useUserStore.getState().fetchActiveUsers();
       setIsEditing(false);
       onClose();
     } else {
@@ -142,7 +141,6 @@ function UserDetailsModal({ isOpen, onClose }) {
       })
     });
     if (response.ok) {
-      alert('User data updated successfully');  
       useUserStore.getState().fetchActiveUsers();
       setIsEditing(false);
       onCloseModal();

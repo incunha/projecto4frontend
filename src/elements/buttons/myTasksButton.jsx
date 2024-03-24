@@ -3,6 +3,8 @@ import  useTasksStore  from '../../../taskStore';
 import { useUserStore } from '../../../userStore';
 import { useNavigate } from 'react-router-dom';
 
+// MyTasksButton component
+// Botão que redireciona o user para a página de visualização de suas tasks
 
 function MyTasksButton() {
     const fetchTasksByUser = useTasksStore(state => state.fetchTasksByUser);

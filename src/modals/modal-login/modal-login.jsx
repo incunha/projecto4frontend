@@ -63,7 +63,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
         if (response.ok) {
             setIsRegistering(false); // Desativação do estado de registo após o sucesso
         } else {
-            alert('Erro ao registar o utilizador'); // Alerta em caso de erro no registo
+            console.error('Failed to register user'); // Mensagem de erro em caso de falha no registo
         }
     };
     

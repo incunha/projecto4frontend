@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useUserStore } from '../../../userStore';
 import UserModal from '../../modals/modal-user/userModal';
 
+// EditProfileButton component
+// Botão que abre o modal de edição de perfil
 
 function EditProfileButton({ updateUserInfo }) {
   // Usa o hook useUserStore para acessar a função fetchUser
