@@ -3,15 +3,27 @@ import './taskCard.css';
 import TaskModal from '../../modals/modal-task/modalTask';
 import useTasksStore from '../../../taskStore';
 import { useUserStore } from '../../../userStore';
+import ConfirmationModal from '../../modals/modal-confirmation/confirmationModal';
 
 function TaskCard({ task, active }) {
   const { title, priority } = task;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const deleteTask = useTasksStore((state) => state.deleteTask);
   const loggedUser = useUserStore((state) => state.loggedUser);
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] = useState(false);
+  const [isRestoreConfirmationModalOpen, setIsRestoreConfirmationModalOpen] = useState(false);
 
   const handleDelete = async () => {
+    setIsDeleteConfirmationModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
     await deleteTask(task.id, active);
+    setIsDeleteConfirmationModalOpen(false);
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteConfirmationModalOpen(false);
   };
 
 
@@ -24,6 +36,10 @@ function TaskCard({ task, active }) {
   };
 
   const handleRestore = async () => {
+    setIsRestoreConfirmationModalOpen(true);
+  };
+
+  const handleConfirmRestore = async () => {
     const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/restore/${task.id}`, {
       method: 'PATCH',
       headers: {
@@ -37,6 +53,11 @@ function TaskCard({ task, active }) {
     } else {
       console.error('Failed to restore task');
     }
+    setIsRestoreConfirmationModalOpen(false);
+  };
+
+  const handleCancelRestore = () => {
+    setIsRestoreConfirmationModalOpen(false);
   };
 
   useEffect(() => {
@@ -82,17 +103,19 @@ function TaskCard({ task, active }) {
   
   return (
     <div 
-    className= {`task-card ${active ? 'active' : 'inactive'}`} 
-    style={cardStyle} draggable={active}  onDragStart={(event)=>{
-      if (!active) {
-        event.preventDefault();
-      } else {
-        event.dataTransfer.setData('text/plain',task.id);
-      }
-    }} onDoubleClick={handleDoubleClick}
+      className= {`task-card ${active ? 'active' : 'inactive'}`} 
+      style={cardStyle} draggable={active}  onDragStart={(event)=>{
+        if (!active) {
+          event.preventDefault();
+        } else {
+          event.dataTransfer.setData('text/plain',task.id);
+        }
+      }} onDoubleClick={handleDoubleClick}
     >
       <div className="task-title">{title}</div>
       {isModalOpen && <TaskModal task={task} isOpen={isModalOpen} onClose={handleCloseModal} />}
+      {isDeleteConfirmationModalOpen && <ConfirmationModal isOpen={isDeleteConfirmationModalOpen} onRequestClose={handleCancelDelete} message="Are you sure you want to delete this task?" onConfirm={handleConfirmDelete} />}
+      {isRestoreConfirmationModalOpen && <ConfirmationModal isOpen={isRestoreConfirmationModalOpen} onRequestClose={handleCancelRestore} message="Are you sure you want to restore this task?" onConfirm={handleConfirmRestore} />}
       {(loggedUser?.role && ((loggedUser.role === 'ScrumMaster' && active) || loggedUser.role === 'Owner')) && <button className="deleteTaskButton" onClick={handleDelete}>X</button>}
       {loggedUser?.role && loggedUser.role === 'Owner' && !active && <button className="restoreTaskButton" onClick={handleRestore}>
       <img src="multimedia/restore.png" alt="Restore Icon" /> </button>}

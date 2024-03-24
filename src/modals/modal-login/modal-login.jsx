@@ -1,48 +1,49 @@
-import './modal-login.css';
-import React, { useState, useEffect } from 'react';
-import useAuthStore from '../../../authStore';
+import './modal-login.css'; // Importação do ficheiro CSS para estilos específicos do modal de login
+import React, { useState, useEffect } from 'react'; // Importação do React e de hooks como useState e useEffect
+import useAuthStore from '../../../authStore'; // Importação do hook personalizado useAuthStore para gerir o estado de autenticação
 
-
-function ModalLogin(props) {
-    const setToken = useAuthStore(state => state.setToken);
-    const [isRegistering, setIsRegistering] = useState(false);
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-    const [userPhoto, setUserPhoto] = useState('./multimedia/profile.png.png');
-    const [password, setPassword] = useState('');
-    const [loginUsername, setLoginUsername] = useState('');
-    const [loginPassword, setLoginPassword] = useState('');
-    const [imageUrlInput, setImageUrlInput] = useState('');
+function ModalLogin(props) { // Declaração do componente ModalLogin e passagem das props necessárias
+    const setToken = useAuthStore(state => state.setToken); // Utilização do hook useAuthStore para obter a função setToken
+    const [isRegistering, setIsRegistering] = useState(false); // Estado para controlar se o user está a registar-se
+    const [firstName, setFirstName] = useState(''); // Estado para armazenar o primeiro nome do user
+    const [lastName, setLastName] = useState(''); // Estado para armazenar o último nome do user
+    const [email, setEmail] = useState(''); // Estado para armazenar o email do user
+    const [username, setUsername] = useState(''); // Estado para armazenar o nome de user
+    const [contactNumber, setContactNumber] = useState(''); // Estado para armazenar o número de contacto do user
+    const [userPhoto, setUserPhoto] = useState('./multimedia/profile.png.png'); // Estado para armazenar a foto do user
+    const [password, setPassword] = useState(''); // Estado para armazenar a palavra-passe do user
+    const [loginUsername, setLoginUsername] = useState(''); // Estado para armazenar o nome de user no processo de login
+    const [loginPassword, setLoginPassword] = useState(''); // Estado para armazenar a palavra-passe no processo de login
+    const [imageUrlInput, setImageUrlInput] = useState(''); // Estado para armazenar o URL da imagem de perfil do user
 
     useEffect(() => {
-        const token = sessionStorage.getItem('token');
+        const token = sessionStorage.getItem('token'); // Obtenção do token armazenado na sessionStorage
         if (token) {
-            setToken(token);
-            props.onLogin();
+            setToken(token); // Definição do token no estado global de autenticação
+            props.onLogin(); // Chamada da função onLogin passada por props
         }
-    }, [setToken, props]);
+    }, [setToken, props]); // Dependências do useEffect
 
     const handleRegisterClick = () => {
-        setIsRegistering(true);
+        setIsRegistering(true); // Ativação do estado de registo
     };
+
     const handleCancelClick = () => {
-        setIsRegistering(false);
+        setIsRegistering(false); // Desativação do estado de registo
     };
+
     const handleImageUrlChange = (event) => {
         const imageUrl = event.target.value;
-        setImageUrlInput(imageUrl);
-        document.getElementById('userImage').src = imageUrl;
-        setUserPhoto(imageUrl);
+        setImageUrlInput(imageUrl); // Atualização do estado do URL da imagem de perfil
+        document.getElementById('userImage').src = imageUrl; // Atualização da imagem de perfil
+        setUserPhoto(imageUrl); // Definição da foto do user
     };
 
     const handleRegister = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); // Prevenção do comportamento padrão do formulário
 
         const user = {
-            name: firstName + " " + lastName,
+            name: firstName + " " + lastName, // Construção do nome completo do user
             email: email,
             username: username,
             contactNumber: contactNumber,
@@ -56,13 +57,13 @@ function ModalLogin(props) {
                 'Accept': '*/*',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(user),
+            body: JSON.stringify(user), // Conversão do objeto user para formato JSON
         });
 
         if (response.ok) {
-            setIsRegistering(false);
+            setIsRegistering(false); // Desativação do estado de registo após o sucesso
         } else {
-            alert('Error registering user');
+            alert('Erro ao registar o utilizador'); // Alerta em caso de erro no registo
         }
     };
     
@@ -77,13 +78,12 @@ function ModalLogin(props) {
         });
     
         if (response.ok) {
-            const token = await response.text();
-            console.log(token);
-            setToken(token);
-            sessionStorage.setItem('token', token);
-            props.onLogin();
+            const token = await response.text(); // Obtenção do token de resposta
+            setToken(token); // Definição do token no estado global de autenticação
+            sessionStorage.setItem('token', token); // Armazenamento do token na sessionStorage
+            props.onLogin(); // Chamada da função onLogin passada por props
         } else {
-            alert('Error logging in');
+            alert('Erro ao iniciar sessão'); // Alerta em caso de erro no login
         }
     };
     

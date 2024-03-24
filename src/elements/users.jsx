@@ -28,7 +28,7 @@ function Users() {
         <Column
           key={title}
           title={title}
-          items={users ? users.filter(user => user.role === roleMapping[title]) : []}
+          items={users ? users.filter(user => user.role === roleMapping[title] && user.username !== 'admin' && user.username !== 'deleted') : []}
           CardComponent={UserCard}
           onCardClick={selectUser}
         />

@@ -1,90 +1,87 @@
 import React, { useState, useEffect } from 'react';
-import './modalTask.css';
-import useTasksStore from '../../../taskStore';
-import useCategoryStore from '../../../categoryStore';
-import { useUserStore } from '../../../userStore';
+import './modalTask.css'; // Importação do arquivo CSS para estilos específicos do modal
+import useTasksStore from '../../../taskStore'; // Importação do hook personalizado para gerenciamento de estado das tarefas
+import useCategoryStore from '../../../categoryStore'; // Importação do hook personalizado para gerenciamento de estado das categorias
+import { useUserStore } from '../../../userStore'; // Importação do hook personalizado para gerenciamento de estado do user
 
-function TaskModal({ task, isOpen, onClose }) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedTask, setEditedTask] = useState({ ...task });
-  const {categories, fetchCategories} = useCategoryStore();
-  const loggedUser = useUserStore(state => state.loggedUser);
+function TaskModal({ task, isOpen, onClose }) { // Componente funcional para exibir e editar os detalhes de uma tarefa em um modal
+  const [isEditing, setIsEditing] = useState(false); // Estado para controlar se a tarefa está sendo editada
+  const [editedTask, setEditedTask] = useState({ ...task }); // Estado para armazenar os detalhes da tarefa sendo editada
+  const {categories, fetchCategories} = useCategoryStore(); // Extração das categorias e da função para buscar categorias do hook useCategoryStore
+  const loggedUser = useUserStore(state => state.loggedUser); // Extração do user logado do estado global usando o hook useUserStore
+  const [taskCreator, setTaskCreator] = useState(null); // Estado para armazenar o criador da tarefa
 
-  const [taskCreator, setTaskCreator] = useState(null);
+  useEffect(() => { // Efeito para ir buscar o criador da tarefa quando o modal é aberto
+    const fetchTaskCreator = async () => { // Função assíncrona para ir buscar o criador da tarefa
+      const taskCreator = await useTasksStore.getState().fetchTaskCreator(task.id); // Chamada ao método fetchTaskCreator do estado global das tarefas para obter o criador da tarefa
+      setTaskCreator(taskCreator); // Atualização do estado com o criador da tarefa obtido
+    };
 
-  useEffect(() => {
-    const fetchTaskCreator = async () => {
-      const taskCreator = await useTasksStore.getState().fetchTaskCreator(task.id);
-        setTaskCreator(taskCreator);
-};
-
-
-  
-    if (isOpen) {
-      fetchTaskCreator();
+    if (isOpen) { // Condição para executar a busca pelo criador da tarefa apenas quando o modal está aberto
+      fetchTaskCreator(); // Chamada à função para buscar o criador da tarefa
     }
-  }, [isOpen]);
+  }, [isOpen]); // Dependência do efeito: isOpen, para garantir que o efeito seja reexecutado quando o modal é aberto ou fechado
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  useEffect(() => { // Efeito para buscar as categorias ao carregar o componente
+    fetchCategories(); // Chamada à função para buscar as categorias
+  }, []); // Array de dependências vazio para garantir que o efeito seja executado apenas uma vez, ao montar o componente
 
-  const handleEditClick = () => {
-    setIsEditing(true);
+  const handleEditClick = () => { // Função para lidar com o clique no botão de edição
+    setIsEditing(true); // Atualiza o estado para indicar que a tarefa está sendo editada
   };
 
-  const handleSaveClick = async () => {
-    if (editedTask.endDate === '') {
-      editedTask.endDate = '2199-12-31';
+  const handleSaveClick = async () => { // Função para lidar com o clique no botão de salvar
+    if (editedTask.endDate === '') { // Verifica se a data de término da tarefa está vazia
+      editedTask.endDate = '2199-12-31'; // Define a data de término como uma data futura caso esteja vazia
     }
-    await useTasksStore.getState().updateTask(editedTask);
-    setIsEditing(false);
-    onClose();
+    await useTasksStore.getState().updateTask(editedTask); // Chamada ao método updateTask do estado global das tarefas para atualizar a tarefa
+    setIsEditing(false); // Atualiza o estado para indicar que a edição da tarefa foi finalizada
+    onClose(); // Chama a função de callback para fechar o modal
   };
 
-  const handleCancelClick = () => {
-    setIsEditing(false);
-    setEditedTask({ ...task });
+  const handleCancelClick = () => { // Função para lidar com o clique no botão de cancelar
+    setIsEditing(false); // Atualiza o estado para indicar que a edição da tarefa foi cancelada
+    setEditedTask({ ...task }); // Restaura os detalhes da tarefa para os valores originais
   };
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setEditedTask({ ...editedTask, [name]: value });
+  const handleChange = (event) => { // Função para lidar com a alteração nos campos de edição da tarefa
+    const { name, value } = event.target; // Extrai o nome e o valor do campo alterado
+    setEditedTask({ ...editedTask, [name]: value }); // Atualiza os detalhes da tarefa em edição com o novo valor
   };
 
-  function mapPriority(priority) {
-    switch(priority) {
+  function mapPriority(priority) { // Função para mapear o valor numérico da prioridade para uma descrição textual
+    switch(priority) { // Switch para verificar o valor da prioridade
       case 100:
-        return 'Low';
+        return 'Low'; // Retorna 'Low' para prioridade 100
       case 200:
-        return 'Medium';
+        return 'Medium'; // Retorna 'Medium' para prioridade 200
       case 300:
-        return 'High';
+        return 'High'; // Retorna 'High' para prioridade 300
       default:
-        return '';
+        return ''; // Retorna uma string vazia para outros valores de prioridade
     }
   }
   
-  function mapStatus(status) {
-    switch(status) {
+  function mapStatus(status) { // Função para mapear o valor numérico do status para uma descrição textual
+    switch(status) { // Switch para verificar o valor do status
       case 10:
-        return 'To Do';
+        return 'To Do'; // Retorna 'To Do' para status 10
       case 20:
-        return 'Doing';
+        return 'Doing'; // Retorna 'Doing' para status 20
       case 30:
-        return 'Done';
+        return 'Done'; // Retorna 'Done' para status 30
       default:
-        return '';
+        return ''; // Retorna uma string vazia para outros valores de status
     }
   }
 
   return (
-    isOpen && (
+    isOpen && (// Renderiza o modal apenas se estiver aberto
       <>
-        <div className="modal-overlay" onClick={onClose} />
+        <div className="modal-overlay" onClick={onClose} /> 
         <div className="modal">
           <h2>Task Details</h2>
-          {isEditing ? (
+          {isEditing ? ( // Verifica se o modal está no modo de edição
             <>
               <div className='taskDetailsEdit'>
               <label className = "taskLabel">Title</label>
@@ -131,7 +128,7 @@ function TaskModal({ task, isOpen, onClose }) {
               <button className = "myButton" onClick={handleCancelClick}>Cancel</button>
                 </div>
             </>
-          ) : (
+          ) : (// Caso contrário, mostra os detalhes da tarefa
             <>
             <div className='taskDetails'>
             <p><span className="taskLabel">Creator:</span> {taskCreator ? taskCreator.username : ''}</p>

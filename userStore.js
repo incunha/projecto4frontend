@@ -171,7 +171,6 @@ export const useUserStore = create(set => ({
         console.error(`Error registering user: ${response.statusText}`);
         return;
       }
-      alert('User registered successfully');
     } catch (error) {
       console.error(error);
     }
