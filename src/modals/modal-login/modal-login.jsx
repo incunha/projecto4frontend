@@ -51,7 +51,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
             password: password,
         };
 
-        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {
+        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users', {
             method: 'POST',
             headers: {
                 'Accept': '*/*',
@@ -68,7 +68,7 @@ function ModalLogin(props) { // Declaração do componente ModalLogin e passagem
     };
     
     const handleLoginClick = async () => {
-        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/login', {
+        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/login', {
             method: 'GET',
             headers: {
                 'Accept': '*/*',

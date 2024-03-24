@@ -59,7 +59,7 @@ const useTasksStore = create((set) => ({
   updateStatus: async (taskId, status) => {
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/changeStatus/${taskId}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/status/${taskId}`,
         {
           method: "PATCH",
           headers: {
@@ -87,9 +87,9 @@ const useTasksStore = create((set) => ({
     console.log("taskId", taskId);
     try {
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/block/${taskId}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/active/${taskId}`,
         {
-          method: "PATCH",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             Accept: "*/*",
@@ -190,7 +190,7 @@ const useTasksStore = create((set) => ({
   updateTask: async (task) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/update",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks",
         {
           method: "PUT",
           headers: {

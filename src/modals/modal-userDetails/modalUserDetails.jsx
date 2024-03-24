@@ -70,8 +70,8 @@ function UserDetailsModal({ isOpen, onClose }) {
 
   //Função para restaurar o user
   const handleRestoreUser = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/restore/${user.username}`, {
-      method: 'POST',
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/active/${user.username}`, {
+      method: 'PATCH',
       headers: {
         Accept: "*/*",
         token: sessionStorage.getItem("token"),
@@ -89,7 +89,7 @@ function UserDetailsModal({ isOpen, onClose }) {
 
   //Função para apagar todas as tarefas do user
   const handleDeleteTasks = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/deleteAll/${user.username}`, {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/${user.username}`, {
       method: 'DELETE',
       headers: {
         Accept: "*/*",
@@ -107,7 +107,7 @@ function UserDetailsModal({ isOpen, onClose }) {
 
   //Função para apagar o user
   const handleDeleteUser = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/delete/${user.username}`, {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/${user.username}`, {
       method: 'DELETE',
       headers: {
         Accept: "*/*",
@@ -125,7 +125,7 @@ function UserDetailsModal({ isOpen, onClose }) {
 
   //Função para salvar as alterações do perfil do user excepto o username (primary key)
   const handleSave = async () => {
-    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
+    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users', {
       method: 'PUT',
       headers: {
         Accept: "*/*",

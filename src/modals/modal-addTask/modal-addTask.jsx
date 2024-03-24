@@ -31,7 +31,7 @@ function AddTaskModal({ isOpen, onRequestClose }) {
     const finalEndDate = endDate || '2199-12-31';
 
     try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/add', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

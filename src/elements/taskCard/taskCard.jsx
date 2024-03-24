@@ -40,7 +40,7 @@ function TaskCard({ task, active }) {
   };
 
   const handleConfirmRestore = async () => {
-    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/restore/${task.id}`, {
+    const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/active/${task.id}`, {
       method: 'PATCH',
       headers: {
         Accept: "*/*",

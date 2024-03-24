@@ -14,12 +14,15 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
   const [contactNumber, setContactNumber] = useState('');
   const [userPhoto, setUserPhoto] = useState('');
   const { fetchUser } = useUserStore(); // Usa o hook do zustand para buscar dados do user
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
 
   // Efeito para carregar os dados do user quando o modal é aberto
   useEffect(() => {
     const fetchUser = async () => {
       // Faz uma requisição para obter os dados do user atual
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/myUserDto', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/myUserDto', {
         method: 'GET',
         headers: {
           Accept: "*/*",
@@ -62,7 +65,7 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
 
   // Função para atualizar os dados do user
   const handleSaveClick = async () => {
-    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/update', {
+    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users', {
       method: 'PUT',
       headers: {
         Accept: "*/*",
@@ -82,10 +85,41 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
       onRequestClose(); // Fecha o modal
       updateUserInfo(firstName, userPhoto); // Atualiza os dados do user na interface
       fetchUser(); // Atualiza os dados do user no estado global
+  
+      // Se a senha antiga estiver definida, chame a função para atualizar a senha
+      if (oldPassword) {
+        handleUpdatePassword();
+      }
     } else {
       console.error('Failed to update user data');
     }
   };
+
+
+// Função para atualizar a senha
+const handleUpdatePassword = async () => {
+  if (oldPassword && newPassword === confirmNewPassword) {
+    const passwordDto = {
+      password: oldPassword,
+      newPassword: newPassword,
+    };
+    const response = await fetch(
+      "http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/password",
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          token: sessionStorage.getItem("token"),
+        },
+        body: JSON.stringify(passwordDto),
+      }
+    );
+    const data = await response.text();
+    console.log(data);
+  } else {
+    alert("Passwords do not match");
+  }
+};
 
   return (
     // Componente Modal do react para exibir o formulário de perfil do user
@@ -106,10 +140,12 @@ function UserModal({ isOpen, onRequestClose, updateUserInfo }) {
           <input type="text" className="inputFieldProfile" placeholder={contactNumber} disabled={!isEditing} onChange={e => setContactNumber(e.target.value)} />
           <label className="labelProfile">User Photo URL</label>
           <input type="url" className="inputFieldProfile" placeholder={userPhoto} disabled={!isEditing} onChange={e => setUserPhoto(e.target.value)} />
-          <label className="labelProfile">Password</label>
-          <input type="password" className="inputFieldProfile" placeholder="Password" disabled={!isEditing} />
-          <label className="labelProfile">Re-write Password</label>
-          <input type="password" className="inputFieldProfile" placeholder="Re-write Password" disabled={!isEditing} />
+          <label className="labelProfile">Old Password</label>
+          <input type="password" className="inputFieldProfile" placeholder="Old Password" disabled={!isEditing} onChange={e => setOldPassword(e.target.value)} />
+          <label className="labelProfile">New Password</label>
+          <input type="password" className="inputFieldProfile" placeholder="New Password" disabled={!isEditing} onChange={e => setNewPassword(e.target.value)} />
+          <label className="labelProfile">Confirm New Password</label>
+          <input type="password" className="inputFieldProfile" placeholder="Confirm New Password" disabled={!isEditing} onChange={e => setConfirmNewPassword(e.target.value)} />
         </div>
         <div className="userImageContainer">
           {/* Exibe a imagem do user */}

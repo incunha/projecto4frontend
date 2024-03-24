@@ -21,57 +21,78 @@ import UserSelect from '../../elements/userSelect/userSelect';
 import {useNavigate } from 'react-router-dom';
 
 function MenuAside() {
+  // Estado para controlar a abertura e fechamento do menu
   const [isOpen, setIsOpen] = useState(false);
+  // Estado para controlar a abertura e fechamento do modal de adição do user
   const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
+  // Estado para controlar a abertura e fechamento do modal de adição de tarefa
   const [isAddTaskModelOpen, setIsAddTaskModelOpen] = useState(false);
+  // Estado para controlar a abertura e fechamento do modal de categorias
   const [isCategoriesModelOpen, setIsCategoriesModelOpen] = useState(false);
+  // Estado para controlar a visibilidade da lista de users
   const isUsersVisible = useUserStore(state => state.isUsersVisible);
+  // Função para alterar a visibilidade da lista de users
   const setIsUsersVisible = useUserStore(state => state.setIsUsersVisible);
+  // Estado para controlar a exibição das tarefas excluídas
   const [viewDeletedTasks, setViewDeletedTasks] = useState(false);
+  // Estado para controlar a exibição dos users excluídos
   const [viewDeletedUsers, setViewDeletedUsers] = useState(false);
+  // Hook para obter a localização atual da rota
   const location = useLocation();
+  // Dados do user logado
   const loggedUser = useUserStore(state => state.loggedUser);
+  // Estado para controlar o menu ativo
   const [activeMenu, setActiveMenu] = useState(null);
+  // Hook de navegação para redirecionamento de rotas
   const navigate = useNavigate();
 
+  // Função para lidar com a exibição dos botões de visualização de tarefas
   const handleViewTasksButtons = () => {
     setActiveMenu('tasks');
   };
-  
+
+  // Função para lidar com a exibição dos botões de visualização de users
   const handleViewUsersButtons = () => {
     setActiveMenu('users');
   };
 
+  // Função para alternar a visibilidade do menu
   const handleToggle = () => {
     setIsOpen(prevIsOpen => !prevIsOpen);
     setIsAddUserModelOpen(false);
   };
 
+  // Função para abrir ou fechar o modal de adição de um user
   const handleAddUser = () => {
     setIsAddUserModelOpen(!isAddUserModelOpen);
   };
 
+  // Função para abrir ou fechar o modal de adição de tarefa
   const handleAddTask = () => {
     setIsAddTaskModelOpen(!isAddTaskModelOpen);
-  }
-  
+  };
 
+  // Função para fechar o modal de adição de um user
   const handleModalClose = () => {
     setIsAddUserModelOpen(false);
   };
 
+  // Função para abrir ou fechar o modal de categorias
   const handleCategories = () => {
     setIsCategoriesModelOpen(!isCategoriesModelOpen);
   };
 
+  // Função para alternar a visibilidade da lista de users
   const handleViewUsers = () => {
     setIsUsersVisible();
   };
 
+  // Função para alternar a exibição das tarefas excluídas
   const handleViewDeletedTasks = () => {
     setViewDeletedTasks(!viewDeletedTasks);
   };
 
+  // Função para alternar a exibição dos users excluídos
   const handleViewDeletedUsers = () => {
     setViewDeletedUsers(!viewDeletedUsers);
   };
@@ -106,6 +127,7 @@ function MenuAside() {
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
           {isUsersVisible && <Users />}
           {viewDeletedTasks && <DeletedTasks />}
+          
         </div>
       )}
     </div>

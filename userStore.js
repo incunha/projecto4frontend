@@ -30,7 +30,7 @@ export const useUserStore = create(set => ({
   selectedUserInList: async (username) => {
     try {
       const token = sessionStorage.getItem('token'); 
-      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/${username}`, {
+      const response = await fetch(`http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/${username}`, {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ export const useUserStore = create(set => ({
   fetchUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/all', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users', {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ export const useUserStore = create(set => ({
   fetchActiveUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/allActive', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/active', {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export const useUserStore = create(set => ({
   fetchInactiveUsers: async () => {
     try {
       const token = sessionStorage.getItem('token'); 
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/allInactive', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/inactive', {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -127,7 +127,7 @@ export const useUserStore = create(set => ({
 
 //Função para ir buscar os dados do user que está logado
   fetchUser: async () => {
-    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/myUserDto', {
+    const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/myUserDto', {
       method: 'GET',
       headers: {
         Accept: "*/*",
@@ -151,7 +151,7 @@ export const useUserStore = create(set => ({
   //Função para registar um user 
   registerUser: async (name, username, email, contactNumber, userPhoto, password) => {
     try {
-      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/register', {
+      const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

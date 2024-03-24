@@ -11,7 +11,7 @@ const useCategoryStore = create((set) => ({
   fetchCategories: async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/allCategories",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/categories",
         {
           method: "GET",
           headers: {
@@ -39,7 +39,7 @@ const useCategoryStore = create((set) => ({
     try {
       const token = sessionStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/deleteCategory/${categoryName}`,
+        `http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/categories/${categoryName}`,
         {
           method: "DELETE",
           headers: {
@@ -65,7 +65,7 @@ const useCategoryStore = create((set) => ({
   createCategory: async (newCategoryName) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/createCategory",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/categories",
         {
           method: "POST",
           headers: {
@@ -92,7 +92,7 @@ const useCategoryStore = create((set) => ({
   updateCategory: async (categoryToEdit, newCategoryName) => {
     try {
       const response = await fetch(
-        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/updateCategory",
+        "http://localhost:8080/Scrum_Project_4_war_exploded/rest/tasks/categories",
         {
           method: "PUT",
           headers: {
