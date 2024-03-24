@@ -97,41 +97,80 @@ function MenuAside() {
     setViewDeletedUsers(!viewDeletedUsers);
   };
 
-  
-
   return (
+    // Container principal do menu lateral, adiciona a classe 'open' quando o menu está aberto
     <div className={`aside-menu ${isOpen ? 'open' : ''}`}>
+      
+      {/* Botão para abrir e fechar o menu */}
       <button className="menu-button" onClick={handleToggle}>
+        {/* Ícone do botão de menu */}
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="36px" height="36px">
           <path d="M0 0h24v24H0z" fill="none"/>
           <path d="M4 11h16v2H4zm0-4h16v2H4zm0 8h16v2H4z"/>
         </svg>
       </button>
+
+      {/* Renderiza o conteúdo do menu apenas quando está aberto */}
       {isOpen && (
         <div>
+          {/* Botão para editar o perfil do user */}
           <EditProfileButton />
+      
+          {/* Linha divisória */}
           <hr style={{borderTop: '1px solid white'}} />
+          
+          {/* Botão para visualizar tarefas */}
           <ViewTasksButton /> 
+
+          {/* Renderiza o seletor de categoria apenas na página de tarefas do ScrumMaster ou Owner */}
           {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <CategorySelect />}
+          
+          {/* Renderiza o seletor de user apenas na página de tarefas do ScrumMaster ou Owner */}
           {location.pathname === '/tasks' && (loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <UserSelect />}
-          {loggedUser.role ==='ScrumMaster' || loggedUser.role === 'Owner' ? <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/> : null}
+          
+          {/* Botão para visualizar tarefas excluídas */}
+          {(loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') && <ViewDeletedTasksButton onClick={handleViewDeletedTasks}/>}
+
+          {/* Botão para adicionar uma nova tarefa */}
           <AddTaskButton onClick={handleAddTask} />
+
+          {/* Modal para adicionar uma nova tarefa */}
           <AddTaskModal isOpen={isAddTaskModelOpen} onRequestClose={handleAddTask} />
+
+          {/* Botão para visualizar as próprias tarefas */}
           <MyTasksButton />
+
+          {/* Botão para visualizar as categorias (somente para o Owner) */}
           {loggedUser.role === 'Owner' ? <CategoriesButton onClick={handleCategories} /> : null}
+
+          {/* Modal para visualizar as categorias */}
           <CategoriesModal isOpen={isCategoriesModelOpen} onRequestClose={() => setIsCategoriesModelOpen(false)} />
+
+          {/* Linha divisória */}
           <hr style={{borderTop: '1px solid white'}} />
-          {loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner' ? <ViewUsersButton onClick={handleViewUsers} /> : null}
-          {loggedUser.role=== 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
+
+          {/* Botão para visualizar os users (apenas para ScrumMaster e Owner) */}
+          {(loggedUser.role === 'ScrumMaster' || loggedUser.role === 'Owner') ? <ViewUsersButton onClick={handleViewUsers} /> : null}
+
+          {/* Botão para adicionar novo usuário (somente para o Owner) */}
+          {loggedUser.role === 'Owner' ? <AddUserButton onClick={handleAddUser} /> : null}
+
+          {/* Botão para visualizar os users excluídos (somente para o Owner) */}
           {loggedUser.role === 'Owner' ? <ViewDeletedUsersButton onClick={handleViewDeletedUsers} /> : null}
+
+          {/* Modal para adicionar novo um novo user */}
           <ModalAddUser isOpen={isAddUserModelOpen} onRequestClose={handleModalClose} />
+
+          {/* Renderiza a lista de users */}
           {isUsersVisible && <Users />}
+
+          {/* Renderiza a lista de tarefas excluídas */}
           {viewDeletedTasks && <DeletedTasks />}
           
         </div>
       )}
     </div>
-  );
+);
 }
 
 export default MenuAside;

@@ -6,7 +6,7 @@ function LogoutButton() {
     const setToken = useAuthStore(state => state.setToken); 
 
     const handleLogout = async () => {
-        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/user/logout', {
+        const response = await fetch('http://localhost:8080/Scrum_Project_4_war_exploded/rest/users/logout', {
             method: 'GET',
             headers: {
                 Accept: "*/*",
