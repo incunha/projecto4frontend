@@ -42,15 +42,6 @@ function App() {
   }, []);
   
 
- // const handleOpenModal = (user) => {
-   // setSelectedUser(user);
-    //setIsModalOpen(true);
- // };
-
- //const handleCloseModal = () => {
-   // setIsModalOpen(false);
-  //};
-
   // Verifica se o user está logado; se não estiver, redireciona para a página de login
   useEffect(() => {
     if (!isLoggedIn) {

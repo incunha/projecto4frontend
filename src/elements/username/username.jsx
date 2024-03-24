@@ -4,7 +4,7 @@ import UserModal from '../../modals/modal-user/userModal';
 import { useUserStore } from '../../../userStore';
 
 function UserName({ updateUserInfo }) {
-  const { fetchUser, loggedUser, UserName } = useUserStore();
+  const { fetchUser, loggedUser } = useUserStore();
   const [firstName, setFirstName] = useState('');
   const [userImage, setUserImage] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
